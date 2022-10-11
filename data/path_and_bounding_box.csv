@@ -1,4 +1,4 @@
-class,top_left_x,top_left_y,w,h,img_size_x,img_size_y,name,date,takes,new_path
+class,top_left_x,top_left_y,w,h,img_size_x,img_size_y,name,date,takes,path
 grenouille,1242,236,208,343,1920,1080,2017-03-10T02:20:00.jpg,2017-03-10 02:20:00,474,camera_06_unnested/2017-03-10T02:20:00.jpg
 grenouille,1242,191,214,279,1920,1080,2017-03-10T02:20:01.jpg,2017-03-10 02:20:01,474,camera_06_unnested/2017-03-10T02:20:01.jpg
 grenouille,1312,101,141,307,1920,1080,2017-03-10T02:20:02.jpg,2017-03-10 02:20:02,474,camera_06_unnested/2017-03-10T02:20:02.jpg
