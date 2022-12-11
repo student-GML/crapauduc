@@ -28,6 +28,8 @@ Atlas is the name of the server used to host the data. We use it as a datalake t
 
 ## Structure
 
+### Main Repository
+
 The structure of the repository is the following:
 
 - [crapauduc_previous_work/](./crapauduc_previous_work/) contains the previous report on the crapauduc project.
@@ -41,3 +43,9 @@ The structure of the repository is the following:
 - [notebooks](./notebooks/) contains all the archived notebook.
 
 - [report](./report/) contains the report of the project.
+
+### Colab
+
+The structure of the colab is the following:
+
+- [crapauduc](./crapauduc/) contains the code used for the project.
