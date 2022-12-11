@@ -1,1 +1,8 @@
 subset
+*.aux
+*.log
+*.gz
+*.out
+*.fls
+*.toc
+*.fdb_latexmk
