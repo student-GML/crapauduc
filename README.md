@@ -38,16 +38,6 @@ The structure of the repository is the following:
 
 - [model](./model/) contains the weight for the smallest models used in the project.
 
-- [notebooks](./notebooks/) contains the notebooks used to train the models.
+- [notebooks](./notebooks/) contains all the archived notebook.
 
 - [report](./report/) contains the report of the project.
-
-
-The labels are the following :
-
-1. triton
-2. grenouille-crapaud
-3. planche
-4. feuille
-5. souris
-6. insecte

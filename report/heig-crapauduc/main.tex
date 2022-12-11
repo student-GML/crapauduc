@@ -1,0 +1,76 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[11pt,fancychapters]{report}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{standalone}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{acro}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{subcaption}
+\usepackage{cancel}
+\usepackage{tikz}
+\usepackage{color}
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+    decorations.pathreplacing,decorations.pathmorphing,shapes,%
+    matrix,shapes.symbols}
+\include{acronyms}
+\include{python_highlighting}
+\geometry{top=1.3in,bottom=1.3in}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\definecolor{DarkerGreen}{RGB}{0,179,45}
+
+\newtheorem{exmp}{Example}[section]
+
+\newcommand{\codeExample}[2]{
+	\begin{exmp}
+      #1
+      \noindent\begin{minipage}{\linewidth}
+      \begin{lstlisting}[style=python]
+          #2
+      \end{lstlisting}
+      \end{minipage}
+    \end{exmp}
+}
+
+\newcommand\MyLBrace[2]{%
+  \left.\rule{0pt}{#1}\right\}\text{#2}}
+  
+%----------------------------------------------------------------------------------------
+%	REPORT
+%----------------------------------------------------------------------------------------
+
+\title{ARN_PW3}
+
+\begin{document}
+
+\include{mainTitle}
+\newpage
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+\include{chapters/1_introduction}
+\include{chapters/2_context}
+\include{chapters/3_preparation}
+\include{chapters/4_filtering}
+\include{chapters/5_model}
+\include{chapters/6_evaluation}
+\include{chapters/7_deployment}
+\include{chapters/8_conclusion}
+
+\end{document}
