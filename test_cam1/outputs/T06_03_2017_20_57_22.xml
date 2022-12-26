@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<doc>
+	<path>C:\Users\Admin\Desktop\Heig-Annee3\Semestre1\GML\Projet\crapauduc\test_cam1\T06_03_2017_20_57_22.jpg</path>
+	<outputs>
+		<object>
+			<item>
+				<name>souris</name>
+				<bndbox>
+					<xmin>313</xmin>
+					<ymin>232</ymin>
+					<xmax>463</xmax>
+					<ymax>472</ymax>
+				</bndbox>
+			</item>
+		</object>
+	</outputs>
+	<time_labeled>1672077007977</time_labeled>
+	<labeled>true</labeled>
+	<size>
+		<width>1920</width>
+		<height>1080</height>
+		<depth>3</depth>
+	</size>
+</doc>
