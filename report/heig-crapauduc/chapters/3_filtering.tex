@@ -1,15 +1,32 @@
 \chapter{Filtrage}
 
 \paragraph*{Idée générale}
-Le but de ce chapitre est de décrire les différentes méthodes de filtrage utilisées pour améliorer la qualité des données.
+Le but de ce chapitre est de décrire les différentes méthodes de filtrage investiguées, dans le but d'améliorer la qualité des données.
 
 \paragraph*{Problème}
-Le dataset original est composé de 18 caméras regroupant plus de 800'000 images. Une bonne partie de ces images sont des faux positifs. Il est donc nécessaire de filtrer les images afin de ne garder que les images qui nous intéressent. Une première observation nous fait remarquer que les images uniquement constituées de feuilles n'ont jamais d'animaux. Ensuite, une deuxième lecture nous fait remarquer que les animaux se déplacent plus facilement par temps humide. Et finalement, nous constatons que les animaux sont nombreux certains jours. À partir de ces observations, nous avons élaboré 3 méthodes pour filtrer les images et ainsi augmenter notre probabilité de trouver des animaux pour constituer de nouveaux labels ou constituer un dataset de validation.
+Le dataset original est composé de 18 caméras regroupant environ 1 million d'images. Une bonne partie de ces images sont des faux positifs. Il est donc nécessaire de filtrer les images afin de ne garder que les images qui nous intéressent. Une première observation nous fait remarquer que les images uniquement constituées de feuilles n'ont jamais d'animaux. Ensuite, une deuxième lecture nous fait remarquer que les animaux se déplacent plus facilement par temps humide. Et finalement, nous constatons que les animaux sont nombreux certains jours. À partir de ces observations, nous avons élaboré 3 méthodes pour filtrer les images et ainsi augmenter notre probabilité de trouver des animaux pour constituer de nouveaux labels ou constituer un dataset de validation.
 Ces méthodes sont décrites dans les sections suivantes.
 
-\section{Analyse de la météo}
 
-\section{Analyse du nombre d'animaux}
+
+
+
+
+\section{Analyse des données labellisées}
+
+Comme dit en introduction, notre professeur monsieur Satizabal Mejia Hector Fabio nous a fourni 
+
+un fichier csv contenant les labelisations de 2020 images --> NON --> investiguer !!!!!! (check avec Joris d'où il a pris les données path\_and\_bounding\_box.csv
+
+\subsection{Analyse temporelle}
+
+\subsection{Analyse météorologique}
+
+
+
+
+
+
 
 \section{Détecteur de planches}
 
