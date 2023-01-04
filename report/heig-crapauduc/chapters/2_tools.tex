@@ -1,0 +1,25 @@
+\chapter{outils}
+
+\paragraph*{But}
+
+Nous avons constitué un repository github contenant des scripts permettant de transformer les données brutes en données utilisables pour l'analyse. Ces scripts sont disponibles dans le repository utils sur github.
+
+\section{Colabeler}
+
+Afin de réaliser les bounding box et les labels, nous avons utilisé le logiciel Colabeler permettant d'annoter les images pour l'object detection. Ainsi nous pouvons ajouter des bounding box facilement et rapidement. Il a été utilisé dans le cadre de la création du filtre et dans la constitution du dataset de test.
+
+\section{Conversion de format}
+
+Nous avons écrit un petit script python permettant de convertir les labels en différents formats. Il existe plusieurs manières de définir les bounding box. Elle peuvent être définies comme un point d'ancrage et une taille plus une hauteur ou simplement être 2 points. De plus, il existe différente nomenclatures pour stocker ces images telles que le format coco stocké dans un fichier .json qui est associé au dataset coco. Il se peut que les données soient encore stockées sous forme d'un csv ou d'un fichier manifest qui peut être utile pour des services comme amazon sagemaker.
+
+\section{Comptage des labels}
+
+Un petit script a été mis sur pied afin de compter les labels déjà effectués. Ce qui permet d'avoir une liste des images déjà traitées et de constituer un subset rapidement pour entraîner des algorithmes.
+
+\section{Folder Shortener}
+
+Ce script bash permet de simplifier le chemin d'accès aux images pour une question de clarté et d'entretient du projet.
+
+\section{Fusion des dataframes}
+
+
