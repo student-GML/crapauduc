@@ -3,11 +3,13 @@
 Dans ce fichier nous donnons une description de chaque notebook utilisé pour la mise en oeuvre de ce projet. 
 
 
-###  [eda_animals_analysis](../notebooks/eda_animals_analysis.ipynb)
+###  [exploratory_analysis](../notebooks/eda_animals_analysis.ipynb)
 
-###  [eda_label_count_analysis](../notebooks/eda_label_count_analysis.ipynb)
+Dans ce fichier a été fait l'analyse exploratoire des données. Elle se base sur les données contenues dans les fichiers [path_and_bounding_box](../data/path_and_bounding_box.csv)join avec celles de la [météo](../data/meteo.csv) sur la date ,  ensuite join du dataframe . Pour faire l'analyse. date heure et météo sont les facteurs qui ont été explorés.
 
-###  [eda_meteo](../notebooks/eda_meteo.ipynb)
+###  [meteo](../notebooks/eda_meteo.ipynb)
+    
+    Dans ce fichier, les données météos ont été importées du format JSON dans lequel ils étpour être mise sous le format .csv dans le fichier data/
 
 ###  [crapauduc_previous_work](../notebooks/example_bounding_box.ipynb)
 
