@@ -3,5 +3,16 @@
 \section{Section1}
 \paragraph{paragraph1}
 \subsection{Features}
-
+Dans une tâche d'object detection, nous utilisons le score IoU qui signifie Intersection over Union.
+C'est un score qui compare les bounding boxes prédites par le modèle avec les bounding boxes réels (ground-truth).
+\begin{figure}[tbh!]
+    \centering
+    \includegraphics[width=\textwidth]{images/iou.png}
+    \caption{Intersection over Union}
+    \label{fig:iou}
+\end{figure}
+Une tâche d'object detection comprend deux sous-problèmes: la classification et la localisation.
+Ainsi nous avons plusieurs métriques pour analyser la performance d'un modèle. IoU se concentre sur l
+a localisation des bounding box prédites tandis que la métrique mAP (mean Average Precision) 
+se concentre sur la classification.
 Ceci est un acronyme \acl{kNN}
