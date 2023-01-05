@@ -40,7 +40,7 @@ The structure of the repository is the following:
 
 - [model](./model/) contains the weight for the smallest models used in the project.
 
-- [notebooks](./notebooks/) contains all the archived notebook.
+- [notebooks](./notebooks/) contains all the archived notebook with an explanation of the usage of each of them.
 
 - [report](./report/) contains the report of the project.
 
