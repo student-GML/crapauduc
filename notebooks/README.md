@@ -9,7 +9,7 @@ Dans ce fichier a été fait l'analyse exploratoire des données. Elle se base s
 
 ###  [meteo](../notebooks/eda_meteo.ipynb)
     
-    Dans ce fichier, les données météos ont été importées du format JSON dans lequel ils étaient à l'origine pour être mises sous le format .csv plus exploitable ([météo](../data/meteo.csv)). 
+    Dans ce fichier, les données météos ont été importées du format JSON dans lequel ils étaient à l'origine pour être mises sous le format .csv plus exploitable [météo](../data/meteo.csv). 
 
 ###  [example_bounding_box](../notebooks/example_bounding_box.ipynb)
 
