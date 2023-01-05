@@ -14,11 +14,56 @@ Ces méthodes sont décrites dans les sections suivantes.
 
 \section{Analyse des données labellisées}
 
-Comme dit en introduction, notre professeur monsieur Satizabal Mejia Hector Fabio nous a fourni 
+Comme dit en introduction, notre professeur monsieur Satizabal Mejia Hector Fabio nous a fourni les bounding box pour certaines images. C'est sur le fichier "path\_and\_bounding\_box.csv" - que nous avons préalablement créé à partir de ces données - que nous avons effectué l'analyse exploratoire des données. Nous nous basons ainsi 2020 images dont :
 
-un fichier csv contenant les labelisations de 2020 images --> NON --> investiguer !!!!!! (check avec Joris d'où il a pris les données path\_and\_bounding\_box.csv
+\begin{enumerate}
+    \item[-] 224 observations de tritons ;
+    \item[-] 201 observations de grenouilles-crapauds.
+\end{enumerate}
+
+\noindent Ces données s'étendent sur la période du 9 mars au 15 avril 2017. Il est premièrement important de noter que les données contenant des tritons et/ou des grenouilles-crapauds s'étendent du 9 mars au 1er avril, c'est-à-dire que l'on en a pas observé entre le 1er avril et le 15 avril. Nous avons donc observé la présence de tritons et/ou grenouille-crapaud au travers de ces données via des variables temporelles - heure et jour - et via des variables météorologiques - telles que humidité, température ou précipitation. Aussi, il est important de noter ici que plusieurs images peuvent faire partie du passage du même animal, c'est pourquoi nous resterons très généraux pour cette première analyse des données. Voici donc ce que l'on a observé sur les données contenant des tritons et/ou des grenouilles-crapauds :
 
 \subsection{Analyse temporelle}
+
+\subsubsection{Date}
+
+\begin{figure}[!htb]
+    \centering
+    \fbox{\includegraphics[width=300px]{images/filtre_observations_date.png}}
+    \caption{Fréquentation des objets en fonction de la date}
+    \label{fig:Fréquentation des objets en fonction de la date}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \fbox{\includegraphics[width=300px]{images/filtre_crapGren_trit_date.png}}
+    \caption{Fréquentation des batraciens observés en fonction de la date}
+    \label{fig:Fréquentation des crapauducs en fonction de la date}
+\end{figure}
+
+\noindent On observe donc d'après ce premier graphique que les batraciens d'intérêt utilisent particulièrement les crapauducs en mois de mars. Le reste des observations durant cette période, nous indique cependant que l'on observe peu de données en avril. \newline
+Cependant, d'après quelques recherches sur internet, les batraciens se reproduisent en fin février-début mars. On peut donc considérer que la déduction de fréquentation plus élevée des crapauducs par les batraciens en mars peut être considérée pour un premier filtrage pertinent des images.
+
+\subsubsection{Heure}
+
+\begin{figure}[!htb]
+    \centering
+    \fbox{\includegraphics[width=300px]{images/filtre_observations_heure.png}}
+    \caption{Fréquentation des objets en fonction de la date}
+    \label{fig:Fréquentation des objets en fonction de la date}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \fbox{\includegraphics[width=300px]{images/filtre_crapGren_trit_heure.png}}
+    \caption{Fréquentation des batraciens observés en fonction de l'heure}
+    \label{fig:Fréquentation des crapauducs en fonction de l'heure}
+\end{figure}
+
+\noindent D'après ce second graphique, on observe que les batraciens d'intérêt utilisent particulièrement - même uniquement, pour cet ensemble de données - les crapauducs entre 19h et 7h du matin, c'est-à-dire de nuit.\newline
+Les quelques recherches faites sur la période de déplacement des batraciens à l'étang indiquant également qu'elle est particulièrement durant le crépuscule, on confirme ainsi la pertinence que peut avoir ce deuxième filtrage des images.
+
+% ---------------------------------
 
 \subsection{Analyse météorologique}
 
