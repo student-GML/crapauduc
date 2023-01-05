@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<doc>
+	<path>C:\Users\Admin\Desktop\Heig-Annee3\Semestre1\GML\Projet\crapauduc\test_cam1\T15_03_2017_21_17_29.jpg</path>
+	<outputs>
+		<object>
+			<item>
+				<name>triton</name>
+				<bndbox>
+					<xmin>1322</xmin>
+					<ymin>406</ymin>
+					<xmax>1472</xmax>
+					<ymax>569</ymax>
+				</bndbox>
+			</item>
+		</object>
+	</outputs>
+	<time_labeled>1672078730704</time_labeled>
+	<labeled>true</labeled>
+	<size>
+		<width>1920</width>
+		<height>1080</height>
+		<depth>3</depth>
+	</size>
+</doc>
