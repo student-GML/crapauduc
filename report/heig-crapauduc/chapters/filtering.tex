@@ -7,10 +7,7 @@ Le but de ce chapitre est de décrire les différentes méthodes de filtrage inv
 Le dataset original est composé de 18 caméras regroupant environ 1 million d'images. Une bonne partie de ces images sont des faux positifs. Il est donc nécessaire de filtrer les images afin de ne garder que les images qui nous intéressent. Une première observation nous fait remarquer que les images uniquement constituées de feuilles n'ont jamais d'animaux. Ensuite, une deuxième lecture nous fait remarquer que les animaux se déplacent plus facilement par temps humide. Et finalement, nous constatons que les animaux sont nombreux certains jours. À partir de ces observations, nous avons élaboré 3 méthodes pour filtrer les images et ainsi augmenter notre probabilité de trouver des animaux pour constituer de nouveaux labels ou constituer un dataset de validation.
 Ces méthodes sont décrites dans les sections suivantes.
 
-
-
-
-
+% -------------------------------
 
 \section{Analyse des données labellisées}
 
@@ -29,14 +26,14 @@ Aussi, il est important de noter ici que plusieurs images peuvent faire partie d
 
 \subsubsection{Date}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_observations_date.png}}
     \caption{Fréquentation des objets en fonction de la date}
     \label{fig:Fréquentation des objets en fonction de la date}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_crapGren_trit_date.png}}
     \caption{Fréquentation des batraciens observés en fonction de la date}
@@ -49,34 +46,34 @@ Cependant, d'après quelques \href{http://www.karch.ch/karch/home/amphibien/osse
 
 \subsubsection{Heure}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_observations_heure.png}}
-    \caption{Fréquentation des objets en fonction de la date}
-    \label{fig:Fréquentation des objets en fonction de la date}
+    \caption{Fréquentation des objets en fonction de l'heure}
+    \label{fig:Fréquentation des objets en fonction de l'heure}
 \end{figure}
 
 On constate ici que le nombre de feuille étant plus grand que le reste d'objets observés, ceci nous empêche de pouvoir observer clairement la distribution d'observation d'objets. Visualisons donc les observations d'objets excepté les feuilles :
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_observations_heure_sans_feuilles.png}}
     \caption{Fréquentation des batraciens observés en fonction de l'heure - sans les feuilles}
     \label{fig:Fréquentation des crapauducs en fonction de l'heure - sans les feuilles}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_crapGren_trit_heure.png}}
     \caption{Fréquentation des batraciens observés en fonction de l'heure}
     \label{fig:Fréquentation des crapauducs en fonction de l'heure}
 \end{figure}
 
-\noindent D'après la figure \ref{fig:Fréquentation des crapauducs en fonction de l'heure}, on observe que les batraciens d'intérêt utilisent particulièrement - même uniquement, pour cet ensemble de données - les crapauducs entre 19h et 7h du matin, c'est-à-dire de nuit. Le reste des observations confirme premièrement la pertinence de cette observation, étant donné que nous avons une quantité élevée d'images prises tout au long de la journée parmi l'ensemble de données étudié ici.\newline
+\noindent D'après la figure \ref{fig:Fréquentation des crapauducs en fonction de l'heure} ci-dessus, on observe que les batraciens d'intérêt utilisent particulièrement - même uniquement, pour cet ensemble de données - les crapauducs entre 19h et 7h du matin, c'est-à-dire de nuit. Le reste des observations (figure \ref{fig:Fréquentation des crapauducs en fonction de l'heure - sans les feuilles}) confirme premièrement la pertinence de cette observation, étant donné que nous avons une quantité élevée d'images prises tout au long de la journée parmi l'ensemble de données étudié ici.\newline
 
 Les quelques recherches faites sur la période de déplacement des batraciens à l'étang indiquant également qu'elle est particulièrement durant le crépuscule, on confirme ainsi la pertinence que peut avoir ce deuxième filtrage des images.
 
-% ---------------------------------
+% --
 
 \subsection{Analyse météorologique}
 
@@ -84,14 +81,14 @@ Les données météorologiques additionnées des recherches en ligne ne sortent 
 
 \subsubsection{Humidité}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_meteo_observations_humidite.png}}
     \caption{Fréquentation des objets en fonction de l'humidité - sans les feuilles}
     \label{fig:Fréquentation des objets en fonction de l'humidité - sans les feuilles}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_meteo_crapGren_trit_humidite.png}}
     \caption{Fréquentation des batraciens en fonction de l'humidité - sans les feuilles}
@@ -100,7 +97,7 @@ Les données météorologiques additionnées des recherches en ligne ne sortent 
 
 On voit ici qu'on peut imaginer prendre seulement les images prises lorsque l'humidité est au-dessus de 55.
 
-
+% -------------------------------
 
 \section{Détecteur de planches}
 
