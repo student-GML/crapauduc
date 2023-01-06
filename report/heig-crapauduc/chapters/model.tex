@@ -1,4 +1,5 @@
 \chapter{Modèles}
+\label{chap:Modeles}
 
 \section{Choix des modèles}
 Le choix des modèles a été un choix rapide.\newline
@@ -32,7 +33,7 @@ Nous avons ccommencé par éssayer de reproduire le tuto sur le dataset proposé
 
 \section{FASTER R-CNN}
 
-Le modèle d'apprentissage automatique Faster R-CNN (R-CNN pour "Region-based Convolutional Network") vient à la base du modèle R-CNN, qui a été ensuite amélioré pour former le modèle Fast R-CNN, qui a lui-même finalement été optimisé pour créer le modèle Faster R-CNN étudié ici. Comme l'indiquent leur nom, l'évolution concerne principalement leur rapidité de traitement des données. Ils utilisent un réseau neuronal convolutif et ont pour objectif primaire de détecter les objets se trouvant sur une image, ce en définissant les délimitations autour d'eux. Nous allons ici expliciter les différences de ces trois modèles et ce qu'elles impliquent dans la rapidité de traitement des données.
+Le modèle d'apprentissage automatique Faster R-CNN (R-CNN pour "Region-based Convolutional Network") vient à la base du modèle R-CNN, qui a été ensuite amélioré pour former le modèle Fast R-CNN, qui a lui-même finalement été optimisé pour créer le modèle Faster R-CNN étudié ici. R-CNN, Fast R-CNN et Faster R-CNN sont tous des modèles de traitement de l'image utilisés pour la détection d'objets dans les images. Ils utilisent tous une approche en plusieurs étapes qui consiste à extraire des caractéristiques de l'image à l'aide d'un réseau de neurones convolutionnel (CNN), puis à identifier les régions de l'image qui pourraient contenir des objets à l'aide de la sélection de région d'intérêt (ROI) et enfin à prédire la classe de chaque région sélectionnée et à localiser l'objet dans l'image.
 
 \paragraph{R-CNN} est un modèle datant de 2014, dont on peut voir l'article scientifique \href{https://arxiv.org/pdf/1311.2524.pdf}{\textit{ici}}. Voici premièrement son architecture en figure \ref{fig:rcnn_architecture} ci-dessous.
 
@@ -42,6 +43,8 @@ Le modèle d'apprentissage automatique Faster R-CNN (R-CNN pour "Region-based Co
     \caption{Architecture de R-CNN}
     \label{fig:rcnn_architecture}
 \end{figure}
+
+Comme dit précédemment, il s'agit du modèle original. Il est très performant, mais aussi très lent, car il traite chaque région sélectionnée de manière indépendante et entraîne un modèle de classification séparé pour chaque région.
 
 % ---
 
@@ -54,6 +57,8 @@ Le modèle d'apprentissage automatique Faster R-CNN (R-CNN pour "Region-based Co
     \label{fig:fastRcnn_architecture}
 \end{figure}
 
+Fast R-CNN est ainsi une version améliorée de R-CNN, qui est beaucoup plus rapide. Au lieu de traiter chaque région sélectionnée de manière indépendante, Fast R-CNN utilise un seul modèle de classification pour toutes les régions sélectionnées dans l'image. De plus, il utilise une technique appelée "max pooling régional" pour réduire la dimension des régions sélectionnées avant de les passer au modèle de classification.
+
 % ---
 
 \paragraph{Faster R-CNN} vient une année plus tard encore, en 2016.  \href{https://arxiv.org/pdf/1506.01497.pdf}{\textit{Ici}} se trouve son article scientifique, et voici finalement son architecture ci-dessous, en figure \ref{fig:fasterRcnn_architecture}.
@@ -65,32 +70,12 @@ Le modèle d'apprentissage automatique Faster R-CNN (R-CNN pour "Region-based Co
     \label{fig:fasterRcnn_architecture}
 \end{figure}
 
-RCNN : 
-https://www.geeksforgeeks.org/r-cnn-region-based-cnns/
+\paragraph{} Faster R-CNN est effectivement un modèle encore plus rapide que Fast R-CNN. Il utilise une technique appelée "réseau de proposition de région" (RPN) pour identifier automatiquement les régions de l'image qui pourraient contenir des objets, sans avoir besoin de calculer explicitement toutes les régions de l'image comme le font R-CNN et Fast R-CNN. Cela permet à Faster R-CNN de traiter l'image de manière beaucoup plus rapide et de détecter des objets avec une précision comparable à celle de Fast R-CNN.
 
-RCNN, Fast RCNN, Faster RCNN : 
-https://analyticsindiamag.com/r-cnn-vs-fast-r-cnn-vs-faster-r-cnn-a-comparative-guide/
+\paragraph{} Pour des raisons évidentes de rapidité de traitement des images, nous avons donc investigué plus précisément ce dernier modèle - Faster R-CNN - pour notre problème. C'est d'ailleurs ce modèle que nous avons finalement sélectionné pour répondre à la problématique de ce projet, comme mentionné ci-après, en chapitre \autoref{chap:Evaluation} de ce rapport ("Evaluation").\newline
+Pour se faire, nous avons donc du adapter les exemples trouvés sur internet à notre problème, légèrement différent de ces dits exemples. Il a donc fallu assembler différents tutoriels, ce qui a impliqué beaucoup de temps d'analyse et de compréhension. Aussi, nous avons du nous habituer au jargon technique que nous n'avions pas - tel que mAP et les benchmarks coco pour en citer quelques uns. Il a également fallu passer du temps pour comprendre ce qu'était COCO (Common Object in COntext) : une base de données fournie par Microsoft qui contient des images annotées avec des informations sur les objets présents dans chaque imag et qui fourni également un benchmark ; un ensemble de tests et de métriques utilisés pour évaluer les performances des modèles de reconnaissance d'objets et de segmentation d'images.
 
-https://towardsdatascience.com/r-cnn-fast-r-cnn-faster-r-cnn-yolo-object-detection-algorithms-36d53571365e
-
-
-RCNN, Fast RCNN, Faster RCNN (vidéo) : 
-https://www.youtube.com/watch?v=c1_g6tw69bU
-
-AP score : 
-https://yanfengliux.medium.com/the-confusing-metrics-of-ap-and-map-for-object-detection-3113ba0386ef
-
-
-\newline\newline
-
-
-SELON LISTE JORIS, IL MANQUE \textbf{Score benchmark coco}
-
-Adapter les exemples sur un problèmes légèrement différent : bullshiter sur assembler différent tutoriaux nécessite de comprendre, perte de temps sur manque de connaissance du jargon technique : mAP, etc les benchmarks coco, comprendre que coco (Common Object in COntext) est beaucoup de chose (dataset, benchmark baseline, dataset d’entrainement)
-
-
-
-
+% ------------------------------------------
 
 \section{RETINA net}
 
