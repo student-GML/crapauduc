@@ -15,12 +15,12 @@ Durant une phase de réflexion visant à résoudre le souci de structure, nous a
 
 \subsubsection{SSD}
 \paragraph{} L'object detection étant une application nouvelle pour nous quand nous débutions le projet, après l'échec du modèle YOLO, nous avons décidé de nous lancer en parallèle sur différents modèles, le but étant de trouver celui ou ceux pouvant répondre efficacement à notre problématique. C'est dans cette optique que nous avons exploré le modèle SSD (Single Shot Multibox Détector). C'est un algorithme de detection d'objet dans une image qui au moment de la prédiction, divise l’image à l’aide d’une grille et génère des scores pour la présence de chaque catégorie d'objet dans chaque grille par défaut puis ajuste la grille pour mieux correspondre à la forme de l'objet. Le réseau combine ainsi les prédictions de plusieurs cartes de caractéristiques avec différentes résolutions pour traiter naturellement des objets de tailles diverses. Ce réseau se veut d'après la documentation, plus rapide que YOLO et aussi précis que FasterRCNN. 
-\paragraph{} Nous avons trouvé un exemple implémentation sur \url{https://pytorch.org/hub/nvidia_deeplearningexamples_ssd}. La mise en oeuvre de celui ci s'est faite sans trop de douleur. Par la suite, il était question de changer le dataset d'entrainement du modèle (MS COCO: Microsoft Common Objects in Context) qui est un jeu de données d'images à grande échelle contenant 328 000 images d'objets quotidiens et d'êtres humains. Pour le remplacer par notre set d'images. Pour ce faire nous nous sommes aidé d'un tutoriel trouvé sur git à l'adresse \url{https://github.com/Coldmooon/SSD-on-Custom-Dataset}. Dans celle ci est expliqué une façon d'entrainer le modèle SSD sur un dataset customisé avec pour contrainte que les images doivent être de taille 300*300 ou 512*512. Travailler sur des images carrées était l'un des problèmes que nous avons rencontré avec YOLO, mais nous avons pensé résoudre ce problème avec les fonctions de resizing existantes. 
+\paragraph{} Nous avons trouvé un exemple d'implémentation sur \url{https://pytorch.org/hub/nvidia_deeplearningexamples_ssd}. La mise en oeuvre de celui ci s'est faite sans trop de douleur. Par la suite, il était question de faire du transfert learning ou fine tuning selon les documents. En effet, le modèle a été entrainé sur le dataset COCO (MS COCO: Microsoft Common Objects in Context) qui est un jeu de données d'images à grande échelle contenant 328 000 images d'objets quotidiens et d'êtres humains. Nous souhaitons donc ré-entrainer une partie du réseau avec notre set d'images. Pour ce faire nous nous sommes aidé d'un tutoriel trouvé sur git à l'adresse \url{https://github.com/Coldmooon/SSD-on-Custom-Dataset}. Dans celle ci est expliqué une façon d'entrainer le modèle SSD sur un dataset personnalisé avec pour contrainte que les images doivent être de taille 300*300 ou 512*512. Travailler sur des images carrées était l'un des problèmes que nous avons rencontré avec YOLO, mais nous avons pensé résoudre ce problème avec les fonctions de resizing existantes. 
 Nous avons ccommencé par éssayer de reproduire le tuto sur le dataset proposé dans celui-ci. A de nombreuses reprises, nous avons fait face à des erreurs dont nous ignorions la provenance ainsi que la solution. Pour finir cela nous a pris beaucoup de temps pour au final ne pas arriver à entrainer le modèle sur le dataset en question. Nous n'avons donc pas pu aller au bout de cette implémentation. Mais nous restons convaincus que ça reste une alternative à la résolution de notre problématique.
 
 \subsubsection{Faster R-CNN avec Keras}
 
-\paragraph{} Après l'échec de YOLOv5 en raison de la nécessité d'utiliser des images carrées de taille fixe, nous avons décidé de nous pencher sur une utilisation potentielle d'un réseau de neurones de type Faster R-CNN, plus précisément en utilisant la bibliothèque open-source Keras puisque c'est une bibliothèque que nous avions déjà utilisée auparavant dans le cadre du cours sur les réseaux de neurones. Pour atteindre cet objectif, nous avions à disposition une implémentation toute faite de Faster R-CNN utilisant Keras disponible à l'adresse suivante : github.com/you359/Keras-FasterRCNN. Malheureusement, nous avons rencontré un certain nombre de problèmes au moment d'utiliser l'implémentation fournie.
+\paragraph{} Après l'échec de YOLOv5 en raison de la nécessité d'utiliser des images carrées de taille fixe, nous avons décidé de nous pencher sur une utilisation potentielle d'un réseau de neurones de type Faster R-CNN, plus précisément en utilisant la bibliothèque open-source Keras puisque c'est une bibliothèque que nous avions déjà utilisée auparavant dans le cadre du cours sur les réseaux de neurones. Pour atteindre cet objectif, nous avions à disposition une implémentation toute faite de Faster R-CNN utilisant Keras disponible à l'adresse suivante : \url{github.com/you359/Keras-FasterRCNN}. Malheureusement, nous avons rencontré un certain nombre de problèmes au moment d'utiliser l'implémentation fournie.
 
 \paragraph{} Tout d'abord, il s'agit d'un code plutôt ancien qui n'est pas forcément compatible avec les dernières versions des librairies utilisées en Python. En effet, ces librairies sont régulièrement mises à jour et certaines fonctions disponibles sont alors dépréciées, modifiées voire même définitivement supprimées. Il a donc fallu trouver par tâtonnement les bonnes versions des librairies à utiliser en créant de multiples environnements virtuels à l'aide de conda et en intérprétant les divers messages d'erreur énigmatiques renvoyés à chaque nouvelle tentative. Finalement, nous avons réalisé que le repo github contenait un fichier texte indiquant les versions optimales des librairies à utiliser pour ce projet. Cependant, même en utilisant les versions recommandées, le code continuait à planter après quelques secondes pour d'obscures raisons.
 
@@ -31,6 +31,30 @@ Nous avons ccommencé par éssayer de reproduire le tuto sur le dataset proposé
 \paragraph{} Pour conclure, on peut donc dire que le coeur du problème de l'implémentation utilisée est son manque de popularité dans la communauté du data science. En effet, comme les utilisateurs sont peu nombreux, des erreurs se glissent dans la documentation et passent inaperçues tandis que d'autres problèmes restent à jamais non-résolus car personne ne semble connaître la solution. Nous avons donc choisi d'utiliser par la suite des modèles plus populaires et par conséquent mieux documentés. 
 
 
+\section{Detectron2}
+Detectron2 est une puissante plateforme de détection d'objets et de segmentation d'images développée par Facebook AI Research (FAIR). Il s'agit de la deuxième génération du système Detectron original, également développé par FAIR. Detectron2 est conçu pour être hautement modulaire et flexible, et il est utilisé pour un large éventail de tâches de computer vision, comme la détection d'objets, la segmentation d'instances, la segmentation panoptique, et plus encore. Il est construit au-dessus du framework PyTorch et présente une variété de modèles de pointe. L'utiliser nous a permis de facilement changer de modèle une fois que notre code d'entrainement était fonctionnel.
+En effet, beaucoup de configuration se font à travers le fichier de configuration, c'est dans lui qu'on spécifie les détails du processus d'entrainements tels que le set de données d'entrainement, le set de validation, le modèle à entrainer, le learning-rate etc. De plus, il intégre de nombreuses configuration de bases et grâce à ceci nous n'avons qu'à changer les paramètres qui nous intéressent comme : la backbone du modèle, les poids à charger pour faire du transfert learning. Detectron2 intégre directement dans la class \verb|DefaultTrainer| une méthode qui affiche des statistiques sur l'entrainement en cours, comme le nombre d'epochs, le learning-rate, le temps restant, etc. Cela nous a permis de suivre l'entrainement de nos modèles. Il s'occupe aussi de faire de l'augmentation de données durant le processus d'entrainement. Finalement, Detectron2 fournit aussi pour tous ses modèles des poids après entrainement du modèle.
+\paragraph{}
+Entrainer un modèle avec Detectron2 se résume donc à faire un code similaire à celui visible en ci-dessous.
+\lstset{language=Python}
+\begin{lstlisting}
+from detectron2 import model_zoo
+from detectron2.engine import DefaultPredictor
+from detectron2.config import get_cfg
+cfg = get_cfg()
+# On charge une configuration de base
+cf_file="COCO-Detection/faster_rcnn_X_101_32x8d_FPN_3x.yaml"
+cfg.merge_from_file(model_zoo.get_config_file(cf_file))
+cfg.DATASETS.TRAIN = ("triton_train",)
+cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(cf_file)  
+# cfg.params... voir dans la documentation
+trainer = DefaultTrainer(cfg) 
+trainer.resume_or_load(resume=False)
+trainer.train()
+predictor = DefaultPredictor(cfg)
+\end{lstlisting}
+\paragraph{}
+En conclusion Detectron2, nous avons a permis de facilement changer de modèle et de tester plusieurs modèles. Nous avons aussi pu facilement faire du transfert learning en chargeant les poids d'un modèle pré-entrainé. 
 \section{FASTER R-CNN}
 
 Le modèle d'apprentissage automatique Faster R-CNN (R-CNN pour "Region-based Convolutional Network") vient à la base du modèle R-CNN, qui a été ensuite amélioré pour former le modèle Fast R-CNN, qui a lui-même finalement été optimisé pour créer le modèle Faster R-CNN étudié ici. R-CNN, Fast R-CNN et Faster R-CNN sont tous des modèles de traitement de l'image utilisés pour la détection d'objets dans les images. Ils utilisent tous une approche en plusieurs étapes qui consiste à extraire des caractéristiques de l'image à l'aide d'un réseau de neurones convolutionnel (CNN), puis à identifier les régions de l'image qui pourraient contenir des objets à l'aide de la sélection de région d'intérêt (ROI) et enfin à prédire la classe de chaque région sélectionnée et à localiser l'objet dans l'image.
@@ -93,7 +117,7 @@ Pour se faire, nous avons donc du adapter les exemples trouvés sur internet à 
 
 \paragraph{Results}
 
-\paragraph{} Ce modèle obtient des résultats extrêmement satisfaisants. En effet, il s'agit du modèle qui détecte les crapauds/grenouilles avec la plus grande accuracy. Les résultats précis de ce modèle sont par ailleurs détaillés dans la section "Evaluation" de ce rapport.
+\paragraph{} Ce modèle obtient des résultats extrêmement satisfaisants. En effet, il s'agit du modèle qui détecte les crapauds/grenouilles avec la plus grande accuracy. Les résultats précis de ce modèle sont par ailleurs détaillés dans la section "Evaluation" du \autoref{chap:Evaluation} de ce rapport.
 
 
 
@@ -104,7 +128,7 @@ Pour se faire, nous avons donc du adapter les exemples trouvés sur internet à 
 
 \section{DEtection Transformer (DE-TR)}
 
-\href{https://github.com/facebookresearch/detr}{DETR} est un modèle sorti en 2020 qui est extrêmement simple à implémenter et fournit des scores (mAP, IoU etc) sur le benchmark COCO qui surpassent ceux des modèles existants de quelques points. C’est pourquoi, en plus de son architecture innovante, nous avons voulu l’essayer. L’architecture, visible en figure \ref{fig:detr_architecture}, se base sur un transformer, un modèle de deep learning parut dans le fameux papier de 2017 de Google, \href{https://arxiv.org/pdf/1706.03762.pdf}{\textit{Attention is all you need}}. On peut observer que le modèle commence par générer des features à partir de l'image d'entrée en utilisant une backbone, c'est-à-dire un modèle pré-entrainé visant justement à extraire ces features à l'aide d'un réseau neuronal convolutif. Ensuite, le modèle utilise la partie encodeuse du transformer suivi de son équivalent décodeur et finalement d'un \verb|prediction feed-forward networks| (FFN). C'est le réseau FFN qui génère les possibles boundings boxes et les classes associées.
+\href{https://github.com/facebookresearch/detr}{DETR} est un modèle sorti en 2020 qui est extrêmement simple à implémenter et fournit des scores (mAP, IoU etc) sur le benchmark COCO qui surpassent ceux des modèles existants de quelques points. C’est pourquoi, en plus de son architecture innovante, nous avons voulu l’essayer. L’architecture, visible en figure \ref{fig:detr_architecture}, se base sur un transformer, un modèle de deep learning parut dans le fameux papier de 2017 de Google, \href{https://arxiv.org/pdf/1706.03762.pdf}{\textit{Attention is all you need}}. On peut observer que le modèle commence par générer des features à partir de l'image d'entrée en utilisant une backbone, c'est-à-dire un modèle pré-entrainé visant justement à extraire ces features à l'aide d'un réseau neuronal convolutif. Ensuite, le modèle utilise la partie encodeuse du transformer suivi de son équivalent décodeur et finalement d'un "prediction feed-forward networks" (FFN). C'est le réseau FFN qui génère les possibles boundings boxes et les classes associées.
 
 \begin{figure}[th!]
     \centering
@@ -113,7 +137,7 @@ Pour se faire, nous avons donc du adapter les exemples trouvés sur internet à 
     \label{fig:detr_architecture}
 \end{figure}
 % ----------------------------------------------------
-
+Ce modèle est simple car il utilise peu de couches contrairement à FasterRCNN par exemple. Une implémentation PyTorch est faisable en 60 lignes. Cependant, l'entrainement est complexe
 \section{Modèles évalués}
 D'après ces nombreuses recherches, nous avons donc implémenté trois modèles fonctionnels que nous avons pu évaluer sur des données tests : 
 
