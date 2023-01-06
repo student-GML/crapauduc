@@ -11,7 +11,6 @@
 \paragraph*{Numéro de séquence} Une information qui n'était pas présente originellement était le numéro de séquence des images. Lorsque la caméra détectait un mouvement continu, la même action pouvait résulter sur plusieurs images différentes. Nous avons donc considéré une séquence valide si sur la même caméra, les images sont prise à la suite dans un interval de temps inférieur à 2 secondes. Ce numéro est ainsi ajouté aux métadonnées et permet de réaliser des analyses plus approfondies.
 
 \section{Stockage des Données}
-
 Afin de stocker les données, nous utilisons deux espaces de stockage différents. Premièrement, nous utilisons le serveur atlas mis à disposition pour stocker les images brutes. Deuxièmement, nous utilisons Google Drive pour stocker les subsets d'images traitées. De cette manière, nous avons une source de donnée fiable et pouvons ainsi tous travailler en parallèle avec les mêmes données uniformisées.
 
 \paragraph*{Datalake}
@@ -20,7 +19,7 @@ Les données désarborisées ainsi que les données originales sont stockées su
 
 \paragraph{Subsets}
 
-Les subsets sont stockés dans le Google Drive et peuvent être utilisé pour tester//entraîner différents algorithmes
+Les subsets sont stockés dans le Google Drive et peuvent être utilisé pour tester et entraîner différents algorithmes
 
 \section{Labellisation des données}
 
@@ -34,4 +33,4 @@ Même si l'objectif final du projet n'est pas de classifier les photos par anima
 
 \paragraph{Localisation}
 
-A l'inverse de la classification, la localisation des animaux sur les photos est l'objectif principal de ce projet. Malheureusement, ce type de labellisation prend beaucoup plus de temps que la labellisation pour une tâche de classification, en particulier une tâche de classification binaire comme pour le détecteur de planche. En effet, il est désormais nécessaire pour chaque image contenant un animal de dessiner une bounding box autour de l'animal en question et de spécifier à chaque fois de quel animal il s'agit. Par chance nous avions déjà à disposition pour cette tâche de localisation un certain nombre de données labellisées disponibles dans le fichier `path_and_bounding_box.csv`. Nous avons choisi de tout de même essayer de labelliser quelques centaines d'images supplémentaires afin d'être certain de ne pas manquer de données d'entraînement. Cependant, cette tâche s'est avérée extrêmement longue et fastidieuse sans apporter de réelle plus-value au projet et nous avons donc finalement décidé d'abandonner et de nous limiter aux ~2000 labels mis à disposition, ce qui est amplement suffisant pour entraîner un réseau de neurones standard. 
+A l'inverse de la classification, la localisation des animaux sur les photos est l'objectif principal de ce projet. Malheureusement, ce type de labellisation prend beaucoup plus de temps que la labellisation pour une tâche de classification, en particulier une tâche de classification binaire comme pour le détecteur de planche. En effet, il est désormais nécessaire pour chaque image contenant un animal de dessiner une bounding box autour de l'animal en question et de spécifier à chaque fois de quel animal il s'agit. Par chance nous avions déjà à disposition pour cette tâche de localisation un certain nombre de données labellisées disponibles dans le fichier \verb|path_and_bounding_box.csv|. Nous avons choisi de tout de même essayer de labelliser quelques centaines d'images supplémentaires afin d'être certain de ne pas manquer de données d'entraînement. Cependant, cette tâche s'est avérée extrêmement longue et fastidieuse sans apporter de réelle plus-value au projet et nous avons donc finalement décidé d'abandonner et de nous limiter aux ~2000 labels mis à disposition, ce qui est amplement suffisant pour entraîner un réseau de neurones standard. 
