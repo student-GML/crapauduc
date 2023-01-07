@@ -30,8 +30,9 @@ Nous avons ccommencé par éssayer de reproduire le tuto sur le dataset proposé
 
 \paragraph{} Pour conclure, on peut donc dire que le coeur du problème de l'implémentation utilisée est son manque de popularité dans la communauté du data science. En effet, comme les utilisateurs sont peu nombreux, des erreurs se glissent dans la documentation et passent inaperçues tandis que d'autres problèmes restent à jamais non-résolus car personne ne semble connaître la solution. Nous avons donc choisi d'utiliser par la suite des modèles plus populaires et par conséquent mieux documentés. 
 
+\section{Les réussites}
 
-\section{Detectron2}
+\subsection{Detectron2}
 Detectron2 est une puissante plateforme de détection d'objets et de segmentation d'images développée par Facebook AI Research (FAIR). Il s'agit de la deuxième génération du système Detectron original, également développé par FAIR. Detectron2 est conçu pour être hautement modulaire et flexible, et il est utilisé pour un large éventail de tâches de computer vision, comme la détection d'objets, la segmentation d'instances, la segmentation panoptique, et plus encore. Il est construit au-dessus du framework PyTorch et présente une variété de modèles de pointe. L'utiliser nous a permis de facilement changer de modèle une fois que notre code d'entrainement était fonctionnel.
 En effet, beaucoup de configuration se font à travers le fichier de configuration, c'est dans lui qu'on spécifie les détails du processus d'entrainements tels que le set de données d'entrainement, le set de validation, le modèle à entrainer, le learning-rate etc. De plus, il intégre de nombreuses configuration de bases et grâce à ceci nous n'avons qu'à changer les paramètres qui nous intéressent comme : la backbone du modèle, les poids à charger pour faire du transfert learning. Detectron2 intégre directement dans la class \verb|DefaultTrainer| une méthode qui affiche des statistiques sur l'entrainement en cours, comme le nombre d'epochs, le learning-rate, le temps restant, etc. Cela nous a permis de suivre l'entrainement de nos modèles. Il s'occupe aussi de faire de l'augmentation de données durant le processus d'entrainement. Finalement, Detectron2 fournit aussi pour tous ses modèles des poids après entrainement du modèle.
 \paragraph{}
@@ -55,7 +56,9 @@ predictor = DefaultPredictor(cfg)
 \end{lstlisting}
 \paragraph{}
 En conclusion Detectron2, nous avons a permis de facilement changer de modèle et de tester plusieurs modèles. Nous avons aussi pu facilement faire du transfert learning en chargeant les poids d'un modèle pré-entrainé. 
-\section{FASTER R-CNN}
+
+
+\subsection{FASTER R-CNN}
 
 Le modèle d'apprentissage automatique Faster R-CNN (R-CNN pour "Region-based Convolutional Network") vient à la base du modèle R-CNN, qui a été ensuite amélioré pour former le modèle Fast R-CNN, qui a lui-même finalement été optimisé pour créer le modèle Faster R-CNN étudié ici. R-CNN, Fast R-CNN et Faster R-CNN sont tous des modèles de traitement de l'image utilisés pour la détection d'objets dans les images. Ils utilisent tous une approche en plusieurs étapes qui consiste à extraire des caractéristiques de l'image à l'aide d'un réseau de neurones convolutionnel (CNN), puis à identifier les régions de l'image qui pourraient contenir des objets à l'aide de la sélection de région d'intérêt (ROI) et enfin à prédire la classe de chaque région sélectionnée et à localiser l'objet dans l'image.
 
@@ -101,7 +104,7 @@ Pour se faire, nous avons donc du adapter les exemples trouvés sur internet à 
 
 % ------------------------------------------
 
-\section{RETINA net}
+\subsection{RETINA net}
 
 \paragraph{Description}
 
@@ -119,14 +122,7 @@ Pour se faire, nous avons donc du adapter les exemples trouvés sur internet à 
 
 \paragraph{} Ce modèle obtient des résultats extrêmement satisfaisants. En effet, il s'agit du modèle qui détecte les crapauds/grenouilles avec la plus grande accuracy. Les résultats précis de ce modèle sont par ailleurs détaillés dans la section "Evaluation" du \autoref{chap:Evaluation} de ce rapport.
 
-
-
-
-
-
-
-
-\section{\textit{De}tection \textit{Tr}ansformer (\textit{DE-TR)}}
+\subsection{\textit{De}tection \textit{Tr}ansformer (\textit{DE-TR)}}
 
 \href{https://github.com/facebookresearch/detr}{DETR} est un modèle sorti en 2020 qui est extrêmement simple à implémenter et fournit des scores (mAP, IoU etc) sur le benchmark COCO qui surpassent ceux des modèles existants de quelques points. C’est pourquoi, en plus de son architecture innovante, nous avons voulu l’essayer. L’architecture, visible en figure \ref{fig:detr_architecture}, se base sur un transformer, un modèle de deep learning parut dans le fameux papier de 2017 de Google, \href{https://arxiv.org/pdf/1706.03762.pdf}{\textit{Attention is all you need}}. On peut observer que le modèle commence par générer des features à partir de l'image d'entrée en utilisant une backbone, c'est-à-dire un modèle pré-entrainé visant justement à extraire ces features à l'aide d'un réseau neuronal convolutif. Ensuite, le modèle utilise la partie encodeuse du transformer suivi de son équivalent décodeur et finalement d'un "prediction feed-forward networks" (FFN). C'est le réseau FFN qui génère les possibles boundings boxes et les classes associées.
 
@@ -153,11 +149,9 @@ Nous avons tenté une seconde implémentation de DETR en codant en PyTorch le mo
 En résumé : Nous n'avons pas réussis par manque de ressources à filtrer les probabilités faibles avec le wrapper Detectron2 de DETR. Nous avons cependant, avec PyTorch Lightning, réussis à avoir de bons scores durant l'entrainement. Ces résultats ne sont pas suffisants pour être comparés aux autres modèles. Et nous avons donc décider d'en rester là avec ce modèle.
 
 \section{Modèles évalués}
-D'après ces nombreuses recherches, nous avons donc implémenté trois modèles fonctionnels que nous avons pu évaluer sur des données tests : 
-
+D'après ces nombreuses recherches, nous avons donc implémenté et évaluer deux modèles fonctionnels dont nous avons pu comparer les scores d'évaluation sur des données tests : 
 
 \begin{itemize}
-    \item[-] 
-    \item[-] 
-    \item[-] 
+    \item[-] Faster R-CNN avec Detectron2 ;
+    \item[-] Retinanet avec Detectron2.
 \end{itemize}
