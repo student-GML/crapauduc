@@ -53,7 +53,29 @@ Les résultats peuvent aussi être visualisé de manière résumée, par défaut
 On voit très facilement que les AP sont désormais calculés par classes sans distinction de IoU. 
 
 
+\section{ Tensorboard de faster RCNN }
+Les widgets tensorboard permettent durant tous les entrainments d'avoir un apercu des différentes métriques enregistrées nous pouvons donc arreter l'entrainement au meilleur moment afin de ne pas overfit. Nous avons pris quelques captures d'écrans affichées dans les figures \ref{fig:tensorboard_overview} et \ref{fig:tensorboard_metric}
+\begin{figure}[h!]
+    \centering
+    \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/tensorboard_large.png}}
+    \caption{Aperçu du widget Tensorboard}
+    \label{fig:tensorboard_overview}
+    \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/tensorboard_metric.png}}
+    \caption{Aperçu des metrics enregistrées dans TensorBoard}
+    \label{fig:tensorboard_metric}
+\end{figure}
+Detectron2 affiche aussi une loss total, nous n'avons pas réussis à determiner la manière dont elle est calculée, mais elle reste un bon indicateur de la performance du model et de l'over/under fitting.
+\begin{figure}[h!]
+    \centering
+    \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/loss_faster_rcnn.png}}
+    \caption{Aperçu de la loss total enregistrée dans TensorBoard}
+    \label{fig:loss_faster_rcnn}
+\end{figure}
+Comme nous pouvons le voir dans la figure \ref{fig:loss_faster_rcnn}, nous n'avons ni d'overfit, ni d'underfit.
 
+
+\section { Loss de RetinaNet}
+JORIS FERA
 % -- Vic : 
 
 \section{Évaluations des deux modèles sélectionnés}
