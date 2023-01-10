@@ -1,27 +1,64 @@
 \chapter{Evaluation}
 \label{chap:Evaluation}
 
-\section{Section1}
-\paragraph{paragraph1}
-\subsection{Features}
+\section{Contexte}
 Dans une tâche d'object detection, nous utilisons le score IoU qui signifie Intersection over Union.
 C'est un score qui compare les bounding boxes prédites par le modèle avec les bounding boxes réels (ground-truth).
-\begin{figure}[tbh!]
+Une tâche d'object detection comprend deux sous-problèmes: la classification et la localisation.
+Ainsi nous avons plusieurs métriques pour analyser la performance d'un modèle. IoU se concentre sur 
+la localisation des bounding box prédites tandis que la métrique mAP (mean Average Precision) 
+se concentre sur la classification.
+\begin{figure}[bh!]
     \centering
-    \includegraphics[width=\textwidth]{images/iou.png}
+    \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/iou.png}}
     \caption{Intersection over Union}
     \label{fig:iou}
 \end{figure}
-Une tâche d'object detection comprend deux sous-problèmes: la classification et la localisation.
-Ainsi nous avons plusieurs métriques pour analyser la performance d'un modèle. IoU se concentre sur l
-a localisation des bounding box prédites tandis que la métrique mAP (mean Average Precision) 
-se concentre sur la classification.
+Un score IoU de 1 signifie que la bounding box prédite est parfaitement superposée sur la bounding box réel, tandis qu'un score de 0 signifie qu'il n'y a pas d'air en commun. Idéalement on espère donc avoir un score IoU de 1 pour toutes nos boundings boxes
+% -- Joris:
+
+
+\section{Lecture d'un benchmark COCO}
+Un benchmark COCO peut être affiché dans la console comme présenté dans l'image \ref{fig:eval_coco_benchmark}. Ce benchmark est réalisé en suivant l'API COCO\footnote[1]{\url{cocodataset.org/\#detection-eval}}. Il présente deux métrics la précision ($\displaystyle{\frac{TP}{TP+FP} }$) et le rappel ($\displaystyle{ \frac{TP}{TP+FN}}$).
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{images/eval_coco_benchmark_white.png}
+    \caption{Exemple de benchmark COCO dans la console}
+    \label{fig:eval_coco_benchmark}
+\end{figure}
+La précision moyenne, (AP-Average Precision) présente dans les résultats COCO est calculée sur toutes les catégories, elle correspond traditionnellement au mean Average Precision (mAP).
+Les résultats sont divisé en 4 catégories qui dépendent du score IoU ou de l'air de la bounding box prédite.
+\begin{enumerate}
+    \item Les trois premières lignes sont l'AP en considérant différents seuil d'IoU pour sélectionner les boudings boxes à évaluer.
+    % \begin{itemize}
+    %     \item de 50\% à 95\% par pas de 5\%.
+    % \end{itemize}
+    \item Les trois suivantes sont l'AP en considérant des surfaces de tailles différentes pour sélectionner les boudings boxes à évaluer
+    \item Les trois suivantes sont le Rappel Moyens (AR) en considérant plusieurs IoU pour sélectionner les boudings boxes à évaluer.
+    \item Les trois suivantes sont l'AR en considérant des surfaces de tailles différentes pour sélectionner les boudings boxes à évaluer.
+\end{enumerate}
+Selon la documentation, la première ligne est la plus importante. A la place de considérer les boundings boxes qui ont un IoU plus grand que le seuil, il est calculé sur cette ligne la moyenne des mAP des boundingx boxes selon 10 seuils différents (de 0.5 à 0.95 par pas de 0.05).
+%https://github.com/facebookresearch/detectron2/blob/main/MODEL_ZOO.md
+Il faut noter que s'il n'existe pas de bounding boxes répondant aux critères, un score de \verb|-1| est affiché. On observe donc qu'il n'existe pas de bounding box de petite taille (32x32 pixels) puisque l'AP ainsi que l'AR où l'air est petite vaut \verb|-1|.
+\paragraph{}
+Avec Detectron2, un benchmark COCO est fait après chaque époch. C'est à dire lorsque le modèle à vu une fois le dataset en entier. Ce benchmark est effectué sur une fold du set d'entrainement appelé validation. Cependant, afin de véritablement tester les résutlats, nous avons aussi effectué un benchmark COCO sur un set de test d'image jamais vues par le modèle. 
+Detectron2 sauvegarde les résultats dans un fichier json, ce fichier peut être lu par un widget TensorBoard afin de monitorer l'entrainement.
+Les résultats peuvent aussi être visualisé de manière résumée, par défaut ce n'est pas fait durant l'entrainement uniquement lors d'un benchmark COCO complet. Le résumé s'affiche comme dans l'image \ref{fig:eval_coco_benchmark_resume} 
+\begin{figure}
+    \centering
+    \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/eval_coco_benchmark_resume.png}}
+    \caption{Résumé COCO de FASTER RCNN}
+    \label{fig:eval_coco_benchmark_resume}
+\end{figure}
+On voit très facilement que les AP sont désormais calculés par classes sans distinction de IoU. 
+
+
 
 % -- Vic : 
 
 \section{Évaluations des deux modèles sélectionnés}
 
-Après avoir testé plusieurs approches comme mentionnées dans le chapitre \autoref{chap:Modeles}, nous avons retenu - comme mentionné également au chapitre 6 - deux modèles dont nous allons ici comparer les scores d'évaluation :
+Après avoir testé plusieurs approches comme mentionnées dans le chapitre \ref{chap:Modeles}, nous avons retenu deux modèles dont nous allons ici comparer les scores d'évaluation :
 
 \begin{itemize}
     \item[-] Faster R-CNN avec Detectron2 et
