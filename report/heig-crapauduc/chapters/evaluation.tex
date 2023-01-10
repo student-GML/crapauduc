@@ -14,7 +14,7 @@ se concentre sur la classification.
     \caption{Intersection over Union}
     \label{fig:iou}
 \end{figure}
-Un score IoU de 1 signifie que la bounding box prédite est parfaitement superposée sur la bounding box réel, tandis qu'un score de 0 signifie qu'il n'y a pas d'air en commun. Idéalement on espère donc avoir un score IoU de 1 pour toutes nos boundings boxes
+Un score IoU de 1 signifie que la bounding box prédite est parfaitement superposée sur la bounding box réel, tandis qu'un score de 0 signifie qu'il n'y a pas d'air en commun. Idéalement on espère donc avoir un score IoU de 1 pour toutes nos bounding boxes
 % -- Joris:
 
 
@@ -28,16 +28,13 @@ Un benchmark COCO peut être affiché dans la console comme présenté dans l'im
 \end{figure}
 La précision moyenne, (AP-Average Precision) présente dans les résultats COCO est calculée sur toutes les catégories, elle correspond traditionnellement au mean Average Precision (mAP).
 Les résultats sont divisé en 4 catégories qui dépendent du score IoU ou de l'air de la bounding box prédite.
-\begin{enumerate}
+\begin{itemize}
     \item Les trois premières lignes sont l'AP en considérant différents seuil d'IoU pour sélectionner les boudings boxes à évaluer.
-    % \begin{itemize}
-    %     \item de 50\% à 95\% par pas de 5\%.
-    % \end{itemize}
     \item Les trois suivantes sont l'AP en considérant des surfaces de tailles différentes pour sélectionner les boudings boxes à évaluer
     \item Les trois suivantes sont le Rappel Moyens (AR) en considérant plusieurs IoU pour sélectionner les boudings boxes à évaluer.
     \item Les trois suivantes sont l'AR en considérant des surfaces de tailles différentes pour sélectionner les boudings boxes à évaluer.
-\end{enumerate}
-Selon la documentation, la première ligne est la plus importante. A la place de considérer les boundings boxes qui ont un IoU plus grand que le seuil, il est calculé sur cette ligne la moyenne des mAP des boundingx boxes selon 10 seuils différents (de 0.5 à 0.95 par pas de 0.05).
+\end{itemize}
+Selon la documentation, la première ligne est la plus importante. A la place de considérer les bounding boxes qui ont un IoU plus grand que le seuil, il est calculé sur cette ligne la moyenne des mAP des bounding boxes selon 10 seuils différents (de 0.5 à 0.95 par pas de 0.05).
 %https://github.com/facebookresearch/detectron2/blob/main/MODEL_ZOO.md
 Il faut noter que s'il n'existe pas de bounding boxes répondant aux critères, un score de \verb|-1| est affiché. On observe donc qu'il n'existe pas de bounding box de petite taille (32x32 pixels) puisque l'AP ainsi que l'AR où l'air est petite vaut \verb|-1|.
 \paragraph{}
@@ -54,18 +51,30 @@ On voit très facilement que les AP sont désormais calculés par classes sans d
 
 
 \section{ Tensorboard de faster RCNN }
-Les widgets tensorboard permettent durant tous les entrainments d'avoir un apercu des différentes métriques enregistrées nous pouvons donc arreter l'entrainement au meilleur moment afin de ne pas overfit. Nous avons pris quelques captures d'écrans affichées dans les figures \ref{fig:tensorboard_overview} et \ref{fig:tensorboard_metric}
+Les widgets tensorboard permettent durant tous les entrainments d'avoir un aperçu des différentes métriques enregistrées nous pouvons donc savoir quand arrêter l'entrainement pour avoir la meilleur performance selon une métrique, cela permet aussi de ne pas overfit. Nous avons pris quelques captures d'écrans affichées dans les figures \ref{fig:tensorboard_overview} et \ref{fig:tensorboard_metric}
 \begin{figure}[h!]
     \centering
-    \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/tensorboard_large.png}}
-    \caption{Aperçu du widget Tensorboard}
-    \label{fig:tensorboard_overview}
-    \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/tensorboard_metric.png}}
-    \caption{Aperçu des metrics enregistrées dans TensorBoard}
-    \label{fig:tensorboard_metric}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tensorboard_large.png}
+        \caption{Aperçu du widget Tensorboard}
+        \label{fig:tensorboard_overview}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tensorboard_metric.png}
+        \caption{Aperçu des métriques enregistrées dans TensorBoard}
+        \label{fig:tensorboard_metric}
+    \end{subfigure}
+    % \scalebox{0.5}[0.5]{}
+    % \caption{Aperçu du widget Tensorboard}
+    % \label{fig:tensorboard_overview}
+    % \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/tensorboard_metric.png}}
+    % \caption{Aperçu des métriques enregistrées dans TensorBoard}
+    \caption{Aperçu de tensorboard et des métriques de faster RCNN}
 \end{figure}
-Detectron2 affiche aussi une loss total, nous n'avons pas réussis à determiner la manière dont elle est calculée, mais elle reste un bon indicateur de la performance du model et de l'over/under fitting.
-\begin{figure}[h!]
+Detectron2 affiche aussi une loss total, nous n'avons pas réussis à déterminer la manière dont elle est calculée, mais elle reste un bon indicateur de la performance du model et de l'over/under fitting. De plus comme nous avons plusieurs modèles, nous pouvons les comparer entres eux puisques toutes erreurs sera identiques sur tous les modèles
+\begin{figure}[hb!]
     \centering
     \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/loss_faster_rcnn.png}}
     \caption{Aperçu de la loss total enregistrée dans TensorBoard}
@@ -75,7 +84,24 @@ Comme nous pouvons le voir dans la figure \ref{fig:loss_faster_rcnn}, nous n'avo
 
 
 \section { Loss de RetinaNet}
-JORIS FERA
+Dans cette section nous allons observer les métriques du modèle RetinaNet. Ce modèle enregistre moins de métriques, ceci est du au fait qu'il ne possède pas une architecture aussi complexe que Faster-RCNN. Alors que Faster-RCNN présentait des métriques pour certaines parties spécifiques du réseau, les RPN (Region Proposal Network) par exemple, RetinaNet ne présente que deux métriques relatives à l'entrainement : la loss de classification ainsi que la loss des bounding boxes.
+\begin{figure}[h!]
+    \begin{subfigure}[h]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tensorboard_retina_net_loss_box.png}
+        \caption{Loss des bounding boxes}
+        \label{fig:loss_retinanet_box}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tensorboard_retina_net_loss_cls.png}
+        \caption{Loss pour la classification}
+        \label{fig:loss_retinanet_cls}
+    \end{subfigure}
+    \caption{Les métriques de RetinaNet durant un entrainement}
+\end{figure}
+Nous pouvons observer que RetinaNet doit être plus entrainé, 1000 itérations contre 500 pour Faster-RCNN. Il ne faut pas confondre itérations et époch. Une époch représente un passage sur l'entièreté du dataset, tandis qu'une iteration est pas vers la recherche d'un minimum durant l'optimisation de l'erreur. Nous avons déterminé ces hyperparamètres grâce à tensorboard qui permet durant l'entrainment d'avoir un aperçu des métriques. Fait intéressant, RetinaNet est plus rapide à entrainer (environ 10 minutes de moins que Faster-RCNN) ceci est surement du à son architecture plus simple qui nécessite moins de calcule.
+
 % -- Vic : 
 
 \section{Évaluations des deux modèles sélectionnés}
