@@ -36,10 +36,10 @@ Scores par classe :
    \begin{tabular}{ | l | l || c |}
      \hline
      modèle & catégorie & AP score \\ \hline
-     \multirow Faster R-CNN & crapaud-grenouille & 42.03 \\ 
+     \multirow{2}{*} {Faster R-CNN} & crapaud-grenouille & 42.03 \\ 
      & triton & 42.58   \\ \hline
-     \multirow Retinanet & crapaud-grenouille & 49.40 \\
-     & triton & 0.00 \\
+     \multirow{2}{*} {Retinanet} & crapaud-grenouille & 49.40 \\
+    & triton & 0.00 \\
      \hline
    \end{tabular}
  \end{center}
@@ -83,7 +83,7 @@ cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")
 cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7  
 # construction du predicteur
 predictor = DefaultPredictor(cfg)
-\end{lstlisting}\newline\newline
+\end{lstlisting}
 
 Le treshold choisi pour le test ci-dessus indique donc qu'on considérera une image comme étant prédite d'une certaine classe si le modèle est sûr à au moins 70\% de sa classification.\newline
 
