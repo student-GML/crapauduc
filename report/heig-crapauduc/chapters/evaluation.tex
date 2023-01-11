@@ -225,12 +225,12 @@ La première, qui est aussi une des plus fréquente, est la non détection d'ani
 \paragraph{}
 La seconde est aussi assez fréquente, il s'agit de la présence de multiples bounding box sur un même animal. Même si c'est étonnant, cette erreur ne devrait pas affecter les scores sur le benchmark. Nous avons aussi tuner le threeshold de confiance pour éviter ce genre d'erreur.
 \paragraph{}
-La dernière est la seul occurence de ce type observée sur le set de teste, on peut voir qu'un bout de feuille est mal classifié avec pourtant une accuracy de 90\%. Et ceci sans raisons visibles.
+La dernière est la seul occurence de ce type observée sur le set de teste, on peut voir qu'un bout de feuille est mal classifié avec pourtant une probabilité de 90\%. Et ceci sans raisons visibles.
 %  Nous pouvons nous demander si la planche à vraiment été bénéfique, en effet la plupart des annotations sont sur la planche, là où la planche permet rapidment d'apercevoir un animal. Le modèle a peut-être appris qu'il est plus probable de voir un animal donc peut-être plus habitué à voir des animaux à cet endroit.
 En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de grâve erreur d'entrainement.
 
 \subsection{Analyse des images non détectés par RetinaNet}
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[h]{0.49\textwidth}
         \centering
@@ -255,4 +255,4 @@ En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de
 \end{figure}
 Nous pouvons voir dans la figure \ref{fig:failed_pred_retina} que RetinaNet ne detecte jamais les tritons. Nous avons pensé que c'était du à la petite taile de ces derniers, cependant nous pouvons observé que l'image \ref{fig:eval_retina_b} est un gros crapaud qui n'est pas non plus reconnu. Il faut remarquer que du set de test, il s'agit de l'unique occurence d'une telle erreur.
 On peut noter que les crapauds-grenouilles sont toujours très bien detecté. L'image \ref{fig:eval_retina_c} nous montre un problème similaire à celui vu prédécement sur l'image \ref{fig:eval_fasterRCNN_a} ce qui tend à confirmer l'hypothèse du manque de lumière sur les cotés.
-\paragraph{Conclusion}. Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés, il se peut, au vu des nombreuses annotations d'entrainement bien centrées, que les modèles aillent appriez à détecter les animaux au centre de l'image. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
+\paragraph{Conclusion} Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés, il se peut, au vu des nombreuses annotations d'entrainement bien centrées, que les modèles aillent appriez à détecter les animaux au centre de l'image. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
