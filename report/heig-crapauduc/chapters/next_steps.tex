@@ -1,8 +1,33 @@
 \chapter{Prochaines étapes}
-\section{Comptage}
+\section{Comptage}\label{anal:comptage}
 \paragraph{} Le comptage des animaux traversant le tunel est la tâche principale pour laquelle ce projet a été mis sur pieds. Maintenant que nous avons des résultats probants pour l'object detection, l'étape suivante consiste en la mise en oeuvre d'une stratégie permettant de compter le nombre de tritons et grenouilles-crapauds traversant le tunnel. Ceci est une tâche assez complexe dans la mesure où une fois les capteurs enclenchés, une longue serie d'images est prise. De ce fait plusieurs images par exemple de tritons à différentes positions peuvent représenter le même triton. Pour pallier cette difficulté, nous avons pensé à regrouper les images par prise. Les prises ont été séparées entre elles par un intervalle de 2s afin de réduire au plus la probabilité de compter plusieurs fois le même animal. 
 
 \paragraph{} Une fois les animaux détectés par notre modèle, nous allons procédé au comptage en regroupant les détection par prise. Nous n'allons donc conserver qu'un seul animal de chaque type qui aura été detecté par prise. 
 
+\section{Comparaison avec le cahier des charges}
 
+\paragraph{} Lors de l'élaboration du cahier des charges de ce projet, nous avons fixé un certain nombre d'objectifs que nous souhaitions atteindre. Ces objectifs sont divisés en deux grandes catégories, à savoir les "must have" et les "nice to have". Chacune de ces catégories contient trois objectifs distincts, et on va détailler ci-dessous dans quelle mesure ces différents objectifs ont été atteints ou à l'inverse ont échoué.
 
+\subsection{Must have}
+\paragraph{} Il s'agit des objectifs à atteindre obligatoirement avant la fin du projet dans la mesure du possible.
+
+\subsubsection{Dessiner une bounding box autour des tritons}
+\paragraph{} Comme on peut le constater dans la partie \ref{anal:evaluation}, les deux modèles obtiennent des résultats très différents concernant les tritons. En effet, le modèle RetinaNet est malheureusement incapable de détecter le moindre triton sur les images. En revanche, le modèle Faster R-CNN obtient un AP score plutôt correct de 42.58 sur les tritons. Comme nous avons choisi ce dernier modèle en tant que modèle final, on peut considérer que ce premier objectif obligatoire est atteint.
+
+\subsubsection{Compter les tritons}\label{anal:tritons}
+\paragraph{} Comme expliqué dans la section \ref{anal:comptage}, le comptage des tritons et plus globalement des animaux en général s'est avéré être une tâche plus complexe que prévu initialement. En effet, même si cette tâche peut sembler en apparence relativement simple une fois les animaux détectés sur les images, plusieurs problèmes explicités dans le chapitre \ref{anal:comptage} sont intervenus et nous ont malheureusement empêché d'atteindre cet objectif.
+
+\subsubsection{détecter les crapauds-grenouilles indépendamment des tritons}
+\paragraph{} Comme on peut le constater dans la partie \ref{anal:evaluation}, les deux modèles obtiennent des résultats relativement similaires quant à la détection des crapauds-grenouilles sur les images. En effet, ils obtiennent tous les deux un AP score situé entre 40 et 50. Le modèle RetinaNet est toutefois légèrement meilleur puisqu'il parvient à obtenir un AP score de 49.40, contre seulement 42.03 pour Faster R-CNN. Cependant, comme expliqué ci-dessus, RetinaNet ne détecte aucun triton et nous avons donc préféré Faster R-CNN pour notre modèle final. Toujours est-il que le résultat obtenu par Faster R-CNN sur les crapauds-grenouilles reste plutôt satisfaisant et on peut donc considérer que ce troisième objectif est une réussite.
+
+\subsection{Nice to have}
+\paragraph{} Il s'agit des objectifs qu'il serait intéressant d'atteindre si le temps le permet mais qui sont d'importance secondaire.
+
+\subsubsection{Distinguer les tritons, les crapauds et les grenouilles}
+\paragraph{} Même si la formulation n'est pas très explicite, l'objectif ici était surtout de distinguer les crapauds des grenouilles puisque la distinction entre les tritons et les crapauds-grenouilles était déjà sous-entendue par le dernier objectif "must have". Hélas, cet objectif est un échec puisque dans notre modèle final décrit dans la section \ref{anal:final_model}, nous avons gardé la catégorie crapaud-grenouille en raison des difficultés rencontrées pour différencier ces deux animaux. En effet, les différences entre ces deux espèces sont minimes et même pour un être humain, il est difficile de les distinguer sans être un expert. La marche était donc tout simplement trop haute pour nos réseaux de neurones.
+
+\subsubsection{Compter le nombre de tritons, crapauds et grenouilles qui ont traversé le tunnel dans une période donnée}
+\paragraph{} Cet objectif était en quelque sorte le prolongement de l'objectif "must have" détaillé dans la partie \ref{anal:tritons}. Cet objectif initial n'ayant pas pu être atteint, nous n'avons par conséquent pas pu faire aboutir sa version améliorée pour les mêmes raisons. Sans entrer dans les détails de ces raisons qui sont expliqués ci-dessus, cet objectif peut donc être considéré comme un nouvel échec.
+
+\subsubsection{Déterminer le sens de la traversée d’un animal}
+\paragraph{} Cet objectif était pertinent principalement pour compter le nombre d'animaux qui traversent les tunnels dans chaque sens. Comme nous n'avons pas été en mesure d'atteindre l'objectif de comptage explicité ci-dessus, nous n'avons pas vraiment essayé de déterminer le sens de la traversée des animaux. De plus, au vu des difficultés rencontrées pour distinguer les crapauds des grenouilles, cette tâche aurait probablement été un peu trop difficile par rapport au bénéfice rapporté par la connaissance du sens de traversée. On peut donc considérer que cet objectif n'a pas été atteint ni même commencé.
