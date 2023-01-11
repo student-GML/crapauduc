@@ -37,7 +37,7 @@ Detectron2 est une puissante plateforme de détection d'objets et de segmentatio
 En effet, beaucoup de configuration se font à travers le fichier de configuration, c'est dans lui qu'on spécifie les détails du processus d'entrainements tels que le set de données d'entrainement, le set de validation, le modèle à entrainer, le learning-rate etc. De plus, il intégre de nombreuses configuration de bases et grâce à ceci nous n'avons qu'à changer les paramètres qui nous intéressent comme : la backbone du modèle, les poids à charger pour faire du transfert learning. Detectron2 intégre directement dans la class \verb|DefaultTrainer| une méthode qui affiche des statistiques sur l'entrainement en cours, comme le nombre d'epochs, le learning-rate, le temps restant, etc. Cela nous a permis de suivre l'entrainement de nos modèles. Il s'occupe aussi de faire de l'augmentation de données durant le processus d'entrainement. Finalement, Detectron2 fournit aussi pour tous ses modèles des poids après entrainement du modèle.
 \paragraph{}
 Entrainer un modèle avec Detectron2 se résume donc à faire un code similaire à celui visible en ci-dessous.
-\lstset{language=Python}
+\lstset{style=Python}
 \begin{lstlisting}
 from detectron2 import model_zoo
 from detectron2.engine import DefaultPredictor
