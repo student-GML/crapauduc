@@ -1,6 +1,6 @@
 \chapter{Analyses}
-Nous allons commencer par expliquer les différentes métriques utilisables lors d'une tâche d'object detection. Ensuite, nous allons expliquer comment lire un benchmark COCO. Enfin nous allons analyser l'entrainement de nos différents modèles. Et pour finir, nous allons observer et analyser des images qui présentent des erreurs de prédictions.
 \label{chap:Evaluation}
+Nous allons commencer par expliquer les différentes métriques utilisables lors d'une tâche d'object detection. Ensuite, nous allons expliquer comment lire un benchmark COCO. Enfin nous allons analyser l'entrainement de nos différents modèles. Et pour finir, nous allons observer et analyser des images qui présentent des erreurs de prédictions.
 
 \section{Contexte}
 Dans une tâche d'object detection, nous utilisons le score IoU qui signifie Intersection over Union.
@@ -52,7 +52,7 @@ On voit très facilement que les AP sont désormais calculés par classes sans d
 
 
 \section{Tensorboard de faster RCNN }\label{anal:train_rcnn}
-Les widgets tensorboard permettent durant tous les entrainments d'avoir un aperçu des différentes métriques enregistrées nous pouvons donc savoir quand arrêter l'entrainement pour avoir la meilleur performance selon une métrique, cela permet aussi de ne pas overfit. Nous avons pris quelques captures d'écrans affichées dans les figures \ref{fig:tensorboard_overview} et \ref{fig:tensorboard_metric}
+Les widgets tensorboard permettent durant tous les entrainments d'avoir un aperçu des différentes métriques enregistrées. Nous pouvons donc savoir quand arrêter l'entrainement pour avoir la meilleur performance selon une métrique, cela permet aussi de ne pas overfit. Nous avons pris quelques captures d'écrans affichées dans les figures \ref{fig:tensorboard_overview} et \ref{fig:tensorboard_metric}
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.49\textwidth}
@@ -64,7 +64,7 @@ Les widgets tensorboard permettent durant tous les entrainments d'avoir un aper�
     \begin{subfigure}[t]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/tensorboard_metric.png}
-        \caption{Aperçu des métriques enregistrées dans TensorBoard}
+        \caption{Aperçu de cls\_accuracy, false\_negative et foreground\_cls\_accuracy durant l'entrainement.}
         \label{fig:tensorboard_metric}
     \end{subfigure}
     % \scalebox{0.5}[0.5]{}
