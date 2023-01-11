@@ -38,7 +38,7 @@ Selon la documentation, la première ligne est la plus importante. A la place de
 %https://github.com/facebookresearch/detectron2/blob/main/MODEL_ZOO.md
 Il faut noter que s'il n'existe pas de bounding boxes répondant aux critères, un score de \verb|-1| est affiché. On observe donc qu'il n'existe pas de bounding box de petite taille (32x32 pixels) puisque l'AP ainsi que l'AR où l'air est petite vaut \verb|-1|.
 \paragraph{}
-Avec Detectron2, un benchmark COCO est fait après chaque époch. C'est à dire lorsque le modèle à vu une fois le dataset en entier. Ce benchmark est effectué sur une fold du set d'entrainement appelé validation. Cependant, afin de véritablement tester les résutlats, nous avons aussi effectué un benchmark COCO sur un set de test d'image jamais vues par le modèle. 
+Avec Detectron2, un benchmark COCO est fait après chaque époch. C'est à dire lorsque le modèle à vu une fois le dataset en entier. Ce benchmark est effectué sur une fold du set d'entrainement appelé validation. Cependant, afin de véritablement tester les résutlats, nous avons aussi effectué un benchmark COCO sur un set de test d'images jamais vues par le modèle. 
 Detectron2 sauvegarde les résultats dans un fichier json, ce fichier peut être lu par un widget TensorBoard afin de monitorer l'entrainement.
 Les résultats peuvent aussi être visualisé de manière résumée, par défaut ce n'est pas fait durant l'entrainement uniquement lors d'un benchmark COCO complet. Le résumé s'affiche comme dans l'image \ref{fig:eval_coco_benchmark_resume} 
 \begin{figure}
@@ -50,7 +50,7 @@ Les résultats peuvent aussi être visualisé de manière résumée, par défaut
 On voit très facilement que les AP sont désormais calculés par classes sans distinction de IoU. 
 
 
-\section{ Tensorboard de faster RCNN }
+\section{Tensorboard de faster RCNN }\label{anal:train_rcnn}
 Les widgets tensorboard permettent durant tous les entrainments d'avoir un aperçu des différentes métriques enregistrées nous pouvons donc savoir quand arrêter l'entrainement pour avoir la meilleur performance selon une métrique, cela permet aussi de ne pas overfit. Nous avons pris quelques captures d'écrans affichées dans les figures \ref{fig:tensorboard_overview} et \ref{fig:tensorboard_metric}
 \begin{figure}[h!]
     \centering
@@ -83,7 +83,7 @@ Detectron2 affiche aussi une loss total, nous n'avons pas réussis à détermine
 Comme nous pouvons le voir dans la figure \ref{fig:loss_faster_rcnn}, nous n'avons ni d'overfit, ni d'underfit.
 
 
-\section { Loss de RetinaNet}
+\section {Loss de RetinaNet}\label{anal:train_retina}
 Dans cette section nous allons observer les métriques du modèle RetinaNet. Ce modèle enregistre moins de métriques, ceci est du au fait qu'il ne possède pas une architecture aussi complexe que Faster-RCNN. Alors que Faster-RCNN présentait des métriques pour certaines parties spécifiques du réseau, les RPN (Region Proposal Network) par exemple, RetinaNet ne présente que deux métriques relatives à l'entrainement : la loss de classification ainsi que la loss des bounding boxes.
 \begin{figure}[h!]
     \begin{subfigure}[h]{0.49\textwidth}
@@ -100,7 +100,7 @@ Dans cette section nous allons observer les métriques du modèle RetinaNet. Ce 
     \end{subfigure}
     \caption{Les métriques de RetinaNet durant un entrainement}
 \end{figure}
-Nous pouvons observer que RetinaNet doit être plus entrainé, 1000 itérations contre 500 pour Faster-RCNN. Il ne faut pas confondre itérations et époch. Une époch représente un passage sur l'entièreté du dataset, tandis qu'une iteration est pas vers la recherche d'un minimum durant l'optimisation de l'erreur. Nous avons déterminé ces hyperparamètres grâce à tensorboard qui permet durant l'entrainment d'avoir un aperçu des métriques. Fait intéressant, RetinaNet est plus rapide à entrainer (environ 10 minutes de moins que Faster-RCNN) ceci est surement du à son architecture plus simple qui nécessite moins de calcule.
+Nous pouvons observer que RetinaNet doit être plus entrainé, 1000 itérations contre 500 pour Faster-RCNN. Il ne faut pas confondre itérations et époch. Une époch représente un passage sur l'entièreté du dataset, tandis qu'une iteration est un pas vers la recherche d'un minimum durant l'optimisation de l'erreur. Nous avons déterminé ces hyperparamètres grâce à tensorboard qui permet durant l'entrainment d'avoir un aperçu des métriques. Fait intéressant, RetinaNet est plus rapide à entrainer (environ 10 minutes de moins que Faster-RCNN) ceci est surement du à son architecture plus simple qui nécessite donc moins de calcule.
 
 % -- Vic : 
 
@@ -190,3 +190,68 @@ Voici deux exemples de résultats de classification par notre modèle ainsi cré
 
 Validation (résultats) important de dire que images sont similaires à celles deja vues blabla --> Joris (précision sur ce qui est dit..)
 
+\section{Où est le problème}
+
+Nous avons donc des résultats qui approchent ceux de l'état de l'art en 2019 selon \url{https://paperswithcode.com/sota/object-detection-on-coco}. Nous avons aussi des modèles qui sont correctement entrainés puisque, nous l'avons vu dans la partie \ref{anal:train_rcnn} ainsi que \ref{anal:train_retina}, les métriques indiquent qu'ils sont ni sous-entrainés ni sur-entrainés. Il nous faut donc observer des mauvaises classifications afin de comprendre les erreurs et de déterminer d'autres facteurs sur lesquels nous pouvons agir afin d'avoir de meilleurs résultats. En effet à l'heure où nous écrivons ces mots, un modèle basé sur DETR \footnote[1]{https://arxiv.org/pdf/2211.03594v1.pdf} atteint 64.5\% d'AP sur le benchmark COCO, ce qui est un score très élevé. Il existe donc des modèles SOTA bien meilleurs mais nous n'arrivons pas à les reproduire. Nous allons donc observer les erreurs de classification afin de comprendre ce qui ne va pas, mais avant nous aimerions faire remarquer qu'une explication possible est simplement la taille du Modèle. DETR, notre plus gros modèle, a 60 millions de paramètres alors que leur modèle en a 600 millions.
+\subsection{Analyse des images non détectés par Faster-RCNN}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[h]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/failed_pred1_rcnn.png}
+        \caption{Crapaud-grenouille caché}
+        \label{fig:eval_fasterRCNN_a}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/failed_pred3_rcnn.png}
+        \caption{Double bounding box}
+        \label{fig:eval_fasterRCNN_b}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.7\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{images/failed_pred5_rcnn.png}
+        \caption{Erreur de classification}
+        \label{fig:eval_fasterRCNN_c}
+    \end{subfigure}
+    \caption{Exemple d'images mal prédites par Faster-RCNN}
+    \label{fig:failed_pred_rcnn}
+\end{figure}
+La plupart des images qui présentent des erreurs pouvant expliquer le score de de Faster-RCNN ressemble aux images de la figure \ref{fig:failed_pred_rcnn}. 
+Nous avons ici trois types d'erreurs. 
+\paragraph{}
+La première, qui est aussi une des plus fréquente, est la non détection d'animaux (souvent sur les bords de l'image). Le manque de luminosité ou la présence de feuille pourrait expliquer cela. Un pré-processing pourrait vérifier l'hypothèse de la luminosité. Cependant, nous ne pouvons pas vraiment faire de pré-processing pour la présence de feuille.
+\paragraph{}
+La seconde est aussi assez fréquente, il s'agit de la présence de multiples bounding box sur un même animal. Même si c'est étonnant, cette erreur ne devrait pas affecter les scores sur le benchmark. Nous avons aussi tuner le threeshold de confiance pour éviter ce genre d'erreur.
+\paragraph{}
+La dernière est la seul occurence de ce type observée sur le set de teste, on peut voir qu'un bout de feuille est mal classifié avec pourtant une accuracy de 90\%. Et ceci sans raisons visibles.
+%  Nous pouvons nous demander si la planche à vraiment été bénéfique, en effet la plupart des annotations sont sur la planche, là où la planche permet rapidment d'apercevoir un animal. Le modèle a peut-être appris qu'il est plus probable de voir un animal donc peut-être plus habitué à voir des animaux à cet endroit.
+En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de grâve erreur d'entrainement.
+
+\subsection{Analyse des images non détectés par RetinaNet}
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[h]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/failed_pred3_retina.png}
+        \caption{Triton jamais détecté}
+        \label{fig:eval_retina_a}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/failed_pred5_retina_big.png}
+        \caption{Non détection du crapaud}
+        \label{fig:eval_retina_b}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.7\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{images/failed_pred4_retina.png}
+        \caption{Animal non détecté}
+        \label{fig:eval_retina_c}
+    \end{subfigure}
+    \caption{Exemple d'images mal prédites par RetinaNet}
+    \label{fig:failed_pred_retina}
+\end{figure}
+Nous pouvons voir dans la figure \ref{fig:failed_pred_retina} que RetinaNet ne detecte jamais les tritons. Nous avons pensé que c'était du à la petite taile de ces derniers, cependant nous pouvons observé que l'image \ref{fig:eval_retina_b} est un gros crapaud qui n'est pas non plus reconnu. Il faut remarquer que du set de test, il s'agit de l'unique occurence d'une telle erreur.
+On peut noter que les crapauds-grenouilles sont toujours très bien detecté. L'image \ref{fig:eval_retina_c} nous montre un problème similaire à celui vu prédécement sur l'image \ref{fig:eval_fasterRCNN_a} ce qui tend à confirmer l'hypothèse du manque de lumière sur les cotés.
+\paragraph{Conclusion}. Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés, il se peut, au vu des nombreuses annotations d'entrainement bien centrées, que les modèles aillent appriez à détecter les animaux au centre de l'image. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
