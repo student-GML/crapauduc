@@ -1,35 +1,35 @@
-\chapter{Data preparation}
+\chapter{Préparation des données}
 
 \section{Acquisition des données}
 
-\paragraph*{Problème} Lors de ce projet, les données doivent être accessible à tous les membres et doivent être stockées de manière uniformisée pour faciliter le travail de groupe. Nous avons alors opté pour une structure regroupant les images par caméra et le nom de fichier correspondant est la date ISO standardisée de la date de la prise du fichier.
+\paragraph*{Problème} Lors de ce projet, les données doivent être accessible à tous les membres et doivent être stockées de manière uniformisée pour faciliter le travail de groupe. Nous avons alors opté pour une structure regroupant les images par caméra ; le nom de fichier correspondant est la date ISO standardisée de la date de la prise du fichier.
 
-\paragraph*{Source} Nous avons récupéré un disque dur comprenant les 500GB dans le bureau de nos professeurs. La structure de fichier était partitionnée par caméra, année, jour, heure, minute. Cette structure était pratique pour naviguer dans les dossiers mais posait un problème pour extraire les informations car les métadonnées étaient stockées dans le path du fichier et non dans un fichier .csv externe. La nouvelle structure partitionnée par camera permet d'avoir toutes les images regroupées et ainsi d'avoir les métadonnées au même endroit. Nous avons ainsi écrit des scripts de transformations que l'on peut trouver dans le repository utils sur github.
+\paragraph*{Source} Nous avons récupéré un disque dur comprenant les 500GB dans le bureau de nos professeurs. La structure de fichier était partitionnée par caméra, année, jour, heure, minute. Cette structure était pratique pour naviguer dans les dossiers mais posait un problème pour extraire les informations car les métadonnées étaient stockées dans le chemin du fichier et non dans un fichier .csv externe. La nouvelle structure partitionnée par caméra permet d'avoir toutes les images regroupées et ainsi d'avoir les métadonnées au même endroit. Nous avons ainsi écrit des scripts de transformations que l'on peut trouver dans le repository `utils` sur GitHub.
 
-\paragraph*{Format} Les images sont au format JPEG, toutes les images sont de la même taille, 1920x1080 pixels.
+\paragraph*{Format} Les images sont au format JPEG et sont toutes de la même taille, soit 1920x1080 pixels.
 
-\paragraph*{Numéro de séquence} Une information qui n'était pas présente originellement était le numéro de séquence des images. Lorsque la caméra détectait un mouvement continu, la même action pouvait résulter sur plusieurs images différentes. Nous avons donc considéré une séquence valide si sur la même caméra, les images sont prise à la suite dans un interval de temps inférieur à 2 secondes. Ce numéro est ainsi ajouté aux métadonnées et permet de réaliser des analyses plus approfondies.
+\paragraph*{Numéro de séquence} Une information qui n'était pas présente originellement était le numéro de séquence des images. Lorsque la caméra détectait un mouvement continu, la même action pouvait résulter en plusieurs images différentes. Nous avons donc considéré une séquence valide si sur la même caméra, les images sont prise à la suite dans un intervalle de temps inférieur à 2 secondes. Ce numéro de séquence est ainsi ajouté aux métadonnées et permet de réaliser des analyses plus approfondies.
 
-\section{Stockage des Données}
+\section{Stockage des données}
 Afin de stocker les données, nous utilisons deux espaces de stockage différents. Premièrement, nous utilisons le serveur atlas mis à disposition pour stocker les images brutes. Deuxièmement, nous utilisons Google Drive pour stocker les subsets d'images traitées. De cette manière, nous avons une source de donnée fiable et pouvons ainsi tous travailler en parallèle avec les mêmes données uniformisées.
 
 \paragraph*{Datalake}
 
-Les données désarborisées ainsi que les données originales sont stockées sur le serveur Atlas dans le dossier \texttt{/home/crapauduc/data/}. Ce dossier est accessible à tous les membres du groupe. Les images sont stockées dans des dossiers par caméra et le nom de fichier est la date ISO standardisée de la date de la prise du fichier.
+Les données désarborisées ainsi que les données originales sont stockées sur le serveur Atlas dans le dossier \texttt{/home/crapauduc/data/}. Ce dossier est accessible à tous les membres du groupe. Les images sont stockées dans des dossiers par caméra et le nom de fichier est la date ISO standardisée de la date de la prise du fichier - comme introduit plus haut.
 
 \paragraph{Subsets}
 
-Les subsets sont stockés dans le Google Drive et peuvent être utilisé pour tester et entraîner différents algorithmes
+Les subsets sont stockés dans le Google Drive et peuvent être utilisés pour tester et entraîner différents algorithmes
 
 \section{Labellisation des données}
 
 \paragraph{Problème}
 
-Comme dans tout projet d'apprentissage supervisé, nous avons besoin de données labellisées manuellement au préalable que l'on peut fournir comme données d'entraînement à nos réseaux de neurones. Dans le cadre de ce projet, on peut distinguer deux grands types de données labellisées. Ces deux types de labellisation ont été effectué avec le même outil de labellisation polyvalent, à savoir Colabeler, et sont décrites plus précisément dans les deux prochains paragraphes.
+Comme dans tout projet d'apprentissage supervisé, nous avons besoin de données labellisées manuellement que l'on peut fournir comme données d'entraînement à nos réseaux de neurones. Dans le cadre de ce projet, on peut distinguer deux grands types de données labellisées. Ces deux types de labellisation ont été effectué avec le même outil de labellisation polyvalent, à savoir Colabeler, et sont décrites plus précisément dans les deux prochains paragraphes.
 
 \paragraph{Classification}
 
-Même si l'objectif final du projet n'est pas de classifier les photos par animal mais plutôt de localiser les animaux sur les photos, nous avons décidé d'utiliser la classification pour une étape intermédiaire, à savoir le détecteur de planche qui permet de déterminer si une photo a une grande probabilité de contenir un animal. Un certain nombre de photos labellisées étaient fournies au début du projet, mais cette labellisation concerne uniquement les animaux et ne donne aucune information sur la présence ou non de la planche sur les images. Nous avons donc dû partir de zéro pour ce travail de labellisation. Heureusement, la labellisation pour une tâche de classification est plutôt rapide puisqu'il suffit d'indiquer pour chaque image si elle contient une planche ou non, ce qui revient en gros à appuyer sur un bouton à chaque fois que l'on voit une planche. Nous avons donc choisi d'analyser un échantillon relativement grand de 5554 images aléatoires issues du tunnel numéro 2. Malgré la rapidité de la labellisation, nous avons rencontré un problème qui réside dans le déséquilibre entre les deux classes planche et non-planche. En effet, l'immense majorité des images contiennent une planche visible et on ne peut donc pas fournir ces données telles quelles au réseau de neurones. Nous avons donc choisi de nous restreindre à un sous-ensemble de 600 images dont environ la moitié contiennent une planche, et il se trouve que cela fut largement suffisant comme on peut le constater au vu des bons résultats obtenus par le détecteur de planche présentés plus loin dans le rapport (section \ref{sex:Planche}).
+Même si l'objectif final du projet n'est pas de classifier les images par animal mais plutôt de localiser les animaux sur les photos, nous avons décidé d'utiliser la classification pour une étape intermédiaire, à savoir le détecteur de planche qui permet de déterminer si une photo a une grande probabilité de contenir un animal. Un certain nombre de photos labellisées étaient fournies au début du projet, mais cette labellisation concerne uniquement les animaux et ne donne aucune information sur la présence ou non de la planche sur les images. Nous avons donc dû partir de zéro pour ce travail de labellisation. Heureusement, la labellisation pour une tâche de classification est plutôt rapide puisqu'il suffit d'indiquer pour chaque image si elle contient une planche ou non, ce qui revient principalement à appuyer sur un bouton à chaque fois que l'on voit une planche. Nous avons donc choisi d'analyser un échantillon relativement grand de 5554 images aléatoires issues du crapauduc numéro 2. Malgré la rapidité de la labellisation, nous avons rencontré un problème qui réside dans le déséquilibre entre les deux classes planche et non-planche. En effet, l'immense majorité des images contiennent une planche visible et on ne peut donc pas fournir ces données telles quelles au réseau de neurones. Nous avons donc choisi de nous restreindre à un sous-ensemble de 600 images dont environ la moitié contiennent une planche, et il se trouve que cela fut largement suffisant comme on peut le constater au vu des bons résultats obtenus par le détecteur de planche présentés plus loin dans le rapport (section \ref{sex:Planche}).
 
 \paragraph{Localisation}
 
