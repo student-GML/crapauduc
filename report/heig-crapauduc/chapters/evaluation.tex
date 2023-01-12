@@ -170,7 +170,7 @@ On voit donc premièrement que les deux scores sont meilleurs pour Faster R-CNN 
  
 On voit ici que bien que le score pour la classe crapaud-grenouille soit plus élevé à l'aide du modèle RetinaNet, le score pour la classe triton est de zéro. Rappelons que la tâche initiale de ce projet est de compter le nombre de triton/crapaud-grenouille qui utilisent les crapauduc ; ainsi, nous avons choisi l'algorithme Faster R-CNN comme modèle final pour cette tâche de classification.\newline
 
-Il est également ici intéressant de noter que le fait que la classe triton ait une AP nulle avec RetinaNet a un impact important sur le résultat de mAP. Il serait dont important et intéressant d'investiguer plus profondément sur la raison de l'échec complet de détection de triton ; comme discuté plus tard au \ref{chap:next_steps} de ce rapport.
+Il est également ici intéressant de noter que le fait que la classe triton ait une AP nulle avec RetinaNet a un impact important sur le résultat de mAP. Il serait dont important et intéressant d'investiguer plus profondément sur la raison de l'échec complet de détection de triton ; comme discuté plus tard en section \ref{subsubsec:Retinanet_tritons} de ce rapport.
 
 \subsection{Modèle final choisi}\label{anal:final_model}
 
@@ -234,7 +234,7 @@ On observe donc ici une bonne prédiction du modèle, qui est quasi certain de s
 
 \section{Où est le problème}\label{ch:eval:sex:problem}
 
-Nous avons donc des résultats qui approchent ceux de l'état de l'art en 2019 selon \url{https://paperswithcode.com/sota/object-detection-on-coco}. Nous avons aussi des modèles qui sont correctement entraînés puisque, nous l'avons vu dans la partie \ref{anal:train_rcnn} ainsi que \ref{anal:train_retina}, les métriques indiquent qu'ils sont ni sous-entraînés ni sur-entraînés. Il nous faut donc observer des mauvaises classifications afin de comprendre les erreurs et déterminer d'autres facteurs sur lesquels nous pouvons agir afin d'avoir de meilleurs résultats. En effet, à l'heure où nous écrivons ces mots, un modèle basé sur DETR \footnote[1]{\url{https://arxiv.org/pdf/2211.03594v1.pdf}} atteint 64.5 de mAP sur le benchmark COCO, ce qui est un score très élevé. Il existe donc des modèles SOTA bien meilleurs mais nous n'arrivons pas à les reproduire. Nous allons donc observer les erreurs de classification afin de comprendre ce qui ne va pas, mais avant nous aimerions faire remarquer qu'une explication possible est simplement la taille du Modèle. DETR, notre plus gros modèle, a 60 millions de paramètres alors que leur modèle en a 600 millions.
+Nous avons donc des résultats qui approchent ceux de l'état de l'art en 2019 selon \url{https://paperswithcode.com/sota/object-detection-on-coco}. Nous avons aussi des modèles qui sont correctement entraînés puisque, nous l'avons vu dans la partie \ref{anal:train_rcnn} ainsi que \ref{anal:train_retina}, les métriques indiquent qu'ils sont ni sous-entraînés ni sur-entraînés. Il nous faut donc observer des mauvaises classifications afin de comprendre les erreurs et déterminer d'autres facteurs sur lesquels nous pouvons agir afin d'avoir de meilleurs résultats. En effet, à l'heure où nous écrivons ces mots, un modèle basé sur DETR \footnote[1]{\url{https://arxiv.org/pdf/2211.03594v1.pdf}} atteint 64.5 de mAP sur le benchmark COCO, ce qui est un score très élevé. Il existe donc des modèles SOTA bien meilleurs mais nous n'arrivons pas à les reproduire. Nous allons donc observer les erreurs de classification afin de comprendre ce qui ne va pas, mais avant nous aimerions faire remarquer qu'une explication possible est simplement la taille du modèle DETR - notre plus gros modèle - qui a 60 millions de paramètres alors que leur modèle en a 600 millions.
 \subsection{Analyse des images non détectés par Faster-RCNN}
 \begin{figure}[h]
     \centering
@@ -259,16 +259,16 @@ Nous avons donc des résultats qui approchent ceux de l'état de l'art en 2019 s
     \caption{Exemple d'images mal prédites par Faster-RCNN}
     \label{fig:failed_pred_rcnn}
 \end{figure}
-La plupart des images qui présentent des erreurs pouvant expliquer le score de de Faster-RCNN ressemble aux images de la figure \ref{fig:failed_pred_rcnn}. 
+La plupart des images qui présentent des erreurs pouvant expliquer le score de Faster-RCNN ressemble aux images de la figure \ref{fig:failed_pred_rcnn}. 
 Nous avons ici trois types d'erreurs. 
 \paragraph{}
-La première, qui est aussi une des plus fréquente, est la non détection d'animaux (souvent sur les bords de l'image). Le manque de luminosité ou la présence de feuille pourrait expliquer cela. Un pré-processing pourrait vérifier l'hypothèse de la luminosité. Cependant, nous ne pouvons pas vraiment faire de pré-processing pour la présence de feuille.
+La première, qui est aussi une des plus fréquente, est la non détection d'animaux (souvent sur les bords de l'image). Le manque de luminosité ou la présence de feuilles pourrait expliquer cela. Un préprocessing pourrait vérifier l'hypothèse de la luminosité. Cependant, nous ne pouvons pas vraiment faire de préprocessing pour la présence de feuille.
 \paragraph{}
-La seconde est aussi assez fréquente, il s'agit de la présence de multiples bounding boxes sur un même animal. Même si c'est étonnant, cette erreur ne devrait pas affecter les scores sur le benchmark. Nous avons aussi tuner le threeshold de confiance pour réduire ce genre d'erreur.
+La seconde est aussi assez fréquente, il s'agit de la présence de multiples bounding boxes sur un même animal. Même si c'est étonnant, cette erreur ne devrait pas affecter les scores sur le benchmark. Nous avons aussi tuner le seuil de confiance (treshold) pour réduire ce genre d'erreur.
 \paragraph{}
-La dernière est la seul occurence de ce type observée sur le set de teste, on peut voir qu'un bout de feuille est mal classifié avec pourtant une probabilité de 90\%. Et ceci sans raisons visibles.
+La dernière est la seule occurrence de ce type observée sur le set de test ; on peut voir qu'un bout de feuille est mal classifié avec pourtant une probabilité de 90\% - et ceci sans raisons visibles.
 %  Nous pouvons nous demander si la planche à vraiment été bénéfique, en effet la plupart des annotations sont sur la planche, là où la planche permet rapidment d'apercevoir un animal. Le modèle a peut-être appris qu'il est plus probable de voir un animal donc peut-être plus habitué à voir des animaux à cet endroit.
-En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de grâves erreurs d'entraînement.
+En conclusion, Faster R-CNN est vraiment bon et les erreurs ne présentent pas de graves erreurs d'entraînement.
 
 \subsection{Analyse des images non détectées par RetinaNet}
 \begin{figure}[H]
@@ -294,9 +294,9 @@ En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de
     \caption{Exemple d'images mal prédites par RetinaNet}
     \label{fig:failed_pred_retina}
 \end{figure}
-Nous pouvons voir dans la figure \ref{fig:failed_pred_retina} que RetinaNet ne détecte jamais les tritons ce qui confirme les scores du benchmark COCO vu précédement. Nous avons pensé que c'était du à la petite taille de ces derniers, cependant nous pouvons observé que l'image \ref{fig:eval_retina_b} est un gros crapaud qui n'est pas non plus reconnu. Il faut remarquer que du set de test, il s'agit de l'unique occurence d'une telle erreur.
-On peut noter que les crapauds-grenouilles sont toujours très bien détectés par RetinaNet. L'image \ref{fig:eval_retina_c} nous montre un problème similaire à celui vu prédécement sur l'image \ref{fig:eval_fasterRCNN_a} ce qui tend à confirmer l'hypothèse du manque de lumière sur les cotés.
+Nous pouvons voir dans la figure \ref{fig:failed_pred_retina} que RetinaNet ne détecte jamais les tritons, ce qui confirme les scores du benchmark COCO vu précédement. Nous avons pensé que c'était dû à la petite taille de ces derniers, cependant nous pouvons observé que l'image \ref{fig:eval_retina_b} est un gros crapaud qui n'est pas non plus reconnu. Il faut remarquer que du set de test, il s'agit de l'unique occurrence d'une telle erreur.
+On peut noter que les crapauds-grenouilles sont toujours très bien détectés par RetinaNet. L'image \ref{fig:eval_retina_c} nous montre un problème similaire à celui vu précédemment sur l'image \ref{fig:eval_fasterRCNN_a}, ce qui tend à confirmer l'hypothèse du manque de lumière sur les cotés.
 \paragraph{}
- Après avoir regardé toutes les prédictions sur les images du set de test pour les deux modèles nous avons remarqué que plusieurs images semblent provenir de la même séquence, ainsi lorsque la détection ne fontionne pas, elle ne fonctionne pas plusieurs fois! Ceci implique que les erreurs sont comptabilisées à double, cependant nous ne pouvons pas crier victoire et dire que nos scores sont bien en dessous de leur vrai valeurs car nous observons aussi ceci sur les prédictions correctes! Ainsi les bons scores et mauvais scores à double se compensent.
+ Après avoir regardé toutes les prédictions sur les images du set de test pour les deux modèles, nous avons remarqué que plusieurs images semblent provenir de la même séquence. Ainsi, lorsque la détection ne fonctionne pas, elle ne fonctionne pas plusieurs fois! Ceci implique que les erreurs sont comptabilisées à double. Cependant, nous ne pouvons pas crier victoire et dire que nos scores sont bien en dessous de leur vrai valeurs car nous observons aussi ceci sur les prédictions correctes! Ainsi les bons scores et mauvais scores à double se compensent.
 
- \paragraph{Conclusion} Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés, il se peut, au vu des nombreuses annotations d'entraînement placées au centre de l'image, que les modèles détectent mieux les animaux au centre de l'image de part leur entraînement. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
+ \paragraph{Conclusion} Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés. Il se peut, au vu des nombreuses annotations d'entraînement placées au centre de l'image, que les modèles détectent mieux les animaux au centre de l'image de par leur entraînement. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
