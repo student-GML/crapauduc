@@ -6,11 +6,11 @@ Nous avons constitué un repository github contenant des scripts permettant de t
 
 \section{Colabeler}
 
-Afin de réaliser les bounding box et les labels, nous avons utilisé le logiciel Colabeler permettant d'annoter les images pour l'object detection. Ainsi nous pouvons ajouter des bounding box facilement et rapidement. Il a été utilisé dans le cadre de la création du filtre et dans la constitution du dataset de test.
+Afin de réaliser les bounding boxs et les labels, nous avons utilisé le logiciel Colabeler permettant d'annoter les images pour l'object detection. Ainsi nous pouvons ajouter des bounding box facilement et rapidement. Il a été utilisé dans le cadre de la création du filtre et dans la constitution du dataset de test.
 
 \section{Conversion de format}
 
-Nous avons écrit plusieurs petit scripts python permettant de convertir les labels en différents formats. Il existe plusieurs manières de définir les bounding box. Elle peuvent être définies comme un point d'ancrage et une taille plus une hauteur ou simplement être 2 points. De plus, il existe différente nomenclatures pour stocker ces images telles que le format coco stocké dans un fichier .json qui est associé au dataset coco. Il se peut que les données soient encore stockées sous forme d'un csv ou d'un fichier manifest qui peut être utile pour des services comme amazon sagemaker. Aini, nous avons créé plusieurs fonctions de conversion de csv à json de xml à csv ou encore de pascalvoc à csv afin de pouvoir annoter les images avec l'outils colabeler.
+Nous avons écrit plusieurs petit scripts python permettant de convertir les labels en différents formats. Il existe plusieurs manières de définir les bounding boxs. Elle peuvent être définies comme un point d'ancrage et une taille plus une hauteur ou simplement être 2 points. De plus, il existe différentes nomenclatures pour stocker ces images telles que le format coco stocké dans un fichier .json qui est associé au dataset coco. Il se peut que les données soient encore stockées sous forme d'un csv ou d'un fichier manifest qui peut être utile pour des services comme amazon sagemaker. Aini, nous avons créé plusieurs fonctions de conversion de csv à json de xml à csv ou encore de pascalvoc à csv afin de pouvoir annoter les images avec l'outils colabeler.
 
 \section{Comptage des labels}
 
@@ -18,11 +18,11 @@ Un petit script a été élaboré afin de compter les labels déjà effectués. 
 
 \section{Folder Shortener}
 
-Ce script bash permet de simplifier le chemin d'accès aux images pour une question de clarté et d'entretient du projet.
+Ce script bash permet de simplifier le chemin d'accès aux images pour une question de clarté et d'entretien du projet. Les chemins d'accès sont ainsi plus courts et plus lisibles ce qui bénéficie à la compréhension du projet.
 
 \section{Fusion des dataframes}
 
-Nous avons également un script permettant de fusionner plusieurs fichier csv en un seul. Ce qui permet de constituer un dataset plus important afin de réaliser des analyses sur tout le dataset.
+Nous avons également un script permettant de fusionner plusieurs fichier csv en un seul. Ce qui permet de constituer un dataset plus important afin de réaliser des analyses complètes. Par exemple, alors que les dossiers étaient partitionnés, notre fichier d'analyse regroupe ainsi tous les dossiers.
 
 \section{Tri des images}
 
