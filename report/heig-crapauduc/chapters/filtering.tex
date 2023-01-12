@@ -4,23 +4,23 @@
 Le but de ce chapitre est de décrire les différentes méthodes de filtrage investiguées, dans le but d'améliorer la qualité des données.
 
 \paragraph*{Problème}
-Le dataset original est composé de 18 caméras regroupant environ 1 million d'images. Une bonne partie de ces images sont des faux positifs. Il est donc nécessaire de filtrer les images afin de ne garder que les images qui nous intéressent. Une première observation nous fait remarquer que les images uniquement constituées de feuilles n'ont jamais d'animaux. Ensuite, une deuxième lecture nous fait remarquer que les animaux se déplacent plus facilement par temps humide. Et finalement, nous constatons que les animaux sont nombreux certains jours. À partir de ces observations, nous avons élaboré 3 méthodes pour filtrer les images et ainsi augmenter notre probabilité de trouver des animaux pour constituer de nouveaux labels ou constituer un dataset de validation.
+Le dataset original est composé de 18 caméras regroupant environ 1 million d'images. Une bonne partie de ces images sont des faux positifs. Il est donc nécessaire de filtrer les images afin de ne garder que les images qui nous intéressent. Une première observation nous fait remarquer que les images uniquement constituées de feuilles n'ont jamais d'animaux. Ensuite, une deuxième lecture nous fait remarquer que les animaux se déplacent plus facilement par temps humide. Et finalement, nous constatons que les animaux sont nombreux à certains moments. À partir de ces observations, nous avons élaboré 3 méthodes pour filtrer les images et ainsi augmenter notre probabilité de trouver des animaux pour constituer de nouveaux labels ou constituer un dataset de validation.
 Ces méthodes sont décrites dans les sections suivantes.
 
 % -------------------------------
 
 \section{Analyse des données labellisées}
 
-Comme dit en introduction, notre professeur monsieur Satizabal Mejia Hector Fabio nous a fourni les bounding box pour certaines images. C'est sur le fichier "path\_and\_bounding\_box.csv" - que nous avons préalablement créé à partir de ces données - que nous avons effectué l'analyse exploratoire des données. Nous nous basons ainsi 2020 images dont :
+Comme dit en introduction, notre professeur monsieur Satizabal Mejia Hector Fabio nous a fourni les bounding box pour certaines images. C'est sur le fichier `path\_and\_bounding\_box.csv`' - que nous avons préalablement créé à partir de ces données - que nous avons effectué l'analyse exploratoire des données. Nous nous basons ainsi 2020 images dont :
 
 \begin{enumerate}
     \item[-] 224 observations de tritons ;
     \item[-] 201 observations de grenouilles-crapauds.
 \end{enumerate}
 
-\noindent Ces données s'étendent sur la période du 9 mars au 15 avril 2017. Il est premièrement important de noter que les données contenant des tritons et/ou des grenouilles-crapauds s'étendent du 9 mars au 1er avril, c'est-à-dire que l'on en a pas observé entre le 1er avril et le 15 avril. Nous avons donc observé la présence de tritons et/ou grenouille-crapaud au travers de ces données via des variables temporelles - heure et jour - et via des variables météorologiques - telles que humidité, température ou précipitation. \newline
+\noindent Ces données s'étendent sur la période du 9 mars au 15 avril 2017. Il est premièrement important de noter que les données contenant des tritons et/ou des grenouilles-crapauds s'étendent du 9 mars au 1er avril, c'est-à-dire que l'on en a pas observé entre le 1er avril et le 15 avril. Nous avons donc observé la présence de tritons et/ou grenouilles-crapauds au travers de ces données via des variables temporelles - heure et jour - et via des variables météorologiques - telles que humidité, température ou précipitation. \newline
 
-Aussi, il est important de noter ici que plusieurs images peuvent faire partie du passage du même objet ; l'ensemble de données compte en effet 425 images dont environ prises. C'est pourquoi nous resterons très généraux pour cette première analyse des données. Voici donc ce que l'on a observé sur les données contenant des tritons et/ou des grenouilles-crapauds :
+Aussi, il est important de noter ici que plusieurs images peuvent faire partie du passage du même animal; l'ensemble de données compte en effet 425 images mais beaucoup moins de séquence puisque une séquence est composée de plusieurs images. C'est pourquoi nous resterons très généraux pour cette première analyse des données. Voici donc ce que l'on a observé sur les données contenant des tritons et/ou des grenouilles-crapauds :
 
 \subsection{Analyse temporelle}
 
@@ -29,7 +29,7 @@ Aussi, il est important de noter ici que plusieurs images peuvent faire partie d
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_observations_date.png}}
-    \caption{Fréquentation des objets en fonction de la date}
+    \caption{Fréquentation des animaux en fonction de la date}
     \label{fig:Fréquentation des objets en fonction de la date}
 \end{figure}
 
@@ -42,14 +42,14 @@ Aussi, il est important de noter ici que plusieurs images peuvent faire partie d
 
 \noindent On observe donc d'après la figure \ref{fig:Fréquentation des crapauducs en fonction de la date} que les batraciens d'intérêt utilisent particulièrement les crapauducs en mois de mars. Le reste des observations durant cette période, nous indique cependant que l'on observe peu de données en avril. \newline
 
-Cependant, d'après cette ressource \url{http://www.karch.ch/karch/home/amphibien/osservazione-di-anfibi.html} sur internet, les batraciens se reproduisent en fin février-début mars. On peut donc considérer que la déduction de fréquentation plus élevée des crapauducs par les batraciens en mars peut être considérée pour un premier filtrage pertinent des images.
+Cependant, d'après cette ressource \footnote[1]{http://www.karch.ch/karch/home/amphibien/osservazione-di-anfibi.html} sur internet, les batraciens se reproduisent en fin février-début mars. On peut donc considérer que la déduction de fréquentation plus élevée des crapauducs par les batraciens en mars peut être considérée pour un premier filtrage pertinent des images.
 
 \subsubsection{Heure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=300px]{images/filtre_observations_heure.png}}
-    \caption{Fréquentation des objets en fonction de l'heure}
+    \caption{Fréquentation des animaux en fonction de l'heure}
     \label{fig:Fréquentation des objets en fonction de l'heure}
 \end{figure}
 
@@ -99,7 +99,7 @@ On voit ici qu'on peut imaginer prendre seulement les images prises lorsque l'hu
 
 % -------------------------------
 
-\section{Détecteur de planches}
+\section{Détecteur de planches}\label{sex:Planche}
 
 Nous avons développé un réseau de neurones convolutif à l'aide de la libraire PyTorch. Ce classificateur binaire, prédit ou non la présence de planche.
 
