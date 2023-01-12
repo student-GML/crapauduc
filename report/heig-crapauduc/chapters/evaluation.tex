@@ -1,13 +1,13 @@
 \chapter{Analyses}
 \label{chap:Evaluation}
-Nous allons commencer par expliquer les différentes métriques utilisables lors d'une tâche d'object detection. Ensuite, nous allons expliquer comment lire un benchmark COCO. Enfin nous allons analyser l'entrainement de nos différents modèles. Et pour finir, nous allons observer et analyser des images qui présentent des erreurs de prédictions.
+Nous allons commencer par expliquer les différentes métriques utilisables lors d'une tâche d'object detection. Ensuite, nous allons expliquer comment lire un benchmark COCO. Enfin nous allons analyser l'entrainement de nos différents modèles ainsi que le score COCO obtenu. Et pour finir, nous allons observer et analyser des images qui présentent des erreurs de prédictions.
 
 \section{Contexte}
 Dans une tâche d'object detection, nous utilisons le score IoU qui signifie Intersection over Union.
-C'est un score qui compare les bounding boxes prédites par le modèle avec les bounding boxes réels (ground-truth).
+C'est un score qui compare les bounding boxes prédites par le modèle avec les bounding boxes réelles (ground-truth).
 Une tâche d'object detection comprend deux sous-problèmes: la classification et la localisation.
 Ainsi nous avons plusieurs métriques pour analyser la performance d'un modèle. IoU se concentre sur 
-la localisation des bounding box prédites tandis que la métrique mAP (mean Average Precision) 
+la localisation des bounding boxes prédites tandis que la métrique mAP (mean Average Precision) 
 se concentre sur la classification.
 \begin{figure}[bh!]
     \centering
@@ -15,12 +15,12 @@ se concentre sur la classification.
     \caption{Intersection over Union}
     \label{fig:iou}
 \end{figure}
-Un score IoU de 1 signifie que la bounding box prédite est parfaitement superposée sur la bounding box réel, tandis qu'un score de 0 signifie qu'il n'y a pas d'air en commun. Idéalement on espère donc avoir un score IoU de 1 pour toutes nos bounding boxes
+Un score IoU de 1 signifie que la bounding box prédite est parfaitement superposée sur la bounding box réelle, tandis qu'un score de 0 signifie qu'il n'y a pas d'air en commun. Idéalement, on espère donc avoir un score IoU de 1 pour toutes nos bounding boxes.
 % -- Joris:
 
 
 \section{Lecture d'un benchmark COCO}
-Un benchmark COCO peut être affiché dans la console comme présenté dans l'image \ref{fig:eval_coco_benchmark}. Ce benchmark est réalisé en suivant l'API COCO\footnote[1]{\url{cocodataset.org/\#detection-eval}}. Il présente deux métrics la précision ($\displaystyle{\frac{TP}{TP+FP} }$) et le rappel ($\displaystyle{ \frac{TP}{TP+FN}}$).
+Un benchmark COCO peut être affiché dans la console comme présenté dans l'image \ref{fig:eval_coco_benchmark}. Ce benchmark est réalisé avec l'API COCO\footnote[1]{\url{cocodataset.org/\#detection-eval}}. Il présente deux métriques:xb la précision ($\displaystyle{\frac{TP}{TP+FP} }$) et le rappel ($\displaystyle{ \frac{TP}{TP+FN}}$).
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/eval_coco_benchmark_white.png}
@@ -35,11 +35,11 @@ Les résultats sont divisé en 4 catégories qui dépendent du score IoU ou de l
     \item Les trois suivantes sont le Rappel Moyens (AR) en considérant plusieurs IoU pour sélectionner les boudings boxes à évaluer.
     \item Les trois suivantes sont l'AR en considérant des surfaces de tailles différentes pour sélectionner les boudings boxes à évaluer.
 \end{itemize}
-Selon la documentation, la première ligne est la plus importante. A la place de considérer les bounding boxes qui ont un IoU plus grand que le seuil, il est calculé sur cette ligne la moyenne des mAP des bounding boxes selon 10 seuils différents (de 0.5 à 0.95 par pas de 0.05).
+Selon la $\text{documentation}^1$, la première ligne est la plus importante. A la place de considérer les bounding boxes qui ont un IoU plus grand que le seuil, il est calculé sur cette ligne la moyenne des mAP des bounding boxes selon 10 seuils différents (de 0.5 à 0.95 par pas de 0.05).
 %https://github.com/facebookresearch/detectron2/blob/main/MODEL_ZOO.md
 Il faut noter que s'il n'existe pas de bounding boxes répondant aux critères, un score de \verb|-1| est affiché. On observe donc qu'il n'existe pas de bounding box de petite taille (32x32 pixels) puisque l'AP ainsi que l'AR où l'air est petite vaut \verb|-1|.
 \paragraph{}
-Avec Detectron2, un benchmark COCO est fait après chaque époch. C'est à dire lorsque le modèle à vu une fois le dataset en entier. Ce benchmark est effectué sur une fold du set d'entrainement appelé validation. Cependant, afin de véritablement tester les résutlats, nous avons aussi effectué un benchmark COCO sur un set de test d'images jamais vues par le modèle. 
+Avec Detectron2, un benchmark COCO est fait après chaque époch. C'est à dire lorsque le modèle à vu une fois le dataset en entier. Ce benchmark est effectué sur un fold du set d'entrainement appelé validation. Cependant, afin de véritablement tester les résutlats, nous avons aussi effectué un benchmark COCO sur un set de test d'images jamais vues par le modèle. 
 Detectron2 sauvegarde les résultats dans un fichier json, ce fichier peut être lu par un widget TensorBoard afin de monitorer l'entrainement.
 Les résultats peuvent aussi être visualisés de manière résumées, par défaut ce n'est pas fait durant l'entrainement uniquement lors d'un benchmark COCO complet. Le résumé s'affiche comme dans l'image \ref{fig:eval_coco_benchmark_resume} 
 \begin{figure}
@@ -50,9 +50,21 @@ Les résultats peuvent aussi être visualisés de manière résumées, par défa
 \end{figure}
 On voit très facilement que les AP sont désormais calculés par classes sans distinction de IoU. 
 
+\section{L'entrainement}\label{anal:train}
+Nous avons entrainé les modèles un après l'autre sur un set de test composé de 176 tritons, 170 crapaud-grenouilles ainsi que de 150 souris. Ce dernier animal n'était pas demandé dans la tâche, mais nous nous sommes dit que ça permettrait d'ajouter de la diversité dans le dataset.
+L'évaluation a été effectuée sur un set composé de 48 tritons, 47 crapaud-grenouilles et 30 souris. Les labels ont été fournis par le professeur.
+Nous n'avons pas changé les paramètres généraux de Detectron2, uniquement les paramètres relatifs aux différents modèles, les entrainements se sont déroulés sur une GPU premium dont la spécification est visible dans le listing \ref{lst:gpu_spec}
+\lstset{style=Bash}
+\begin{lstlisting}[caption = {Résultat de la commande nvidia-smi},label={lst:gpu_spec}]
+NVIDIA-SMI:     460.32.03    
+Driver Version: 460.32.03    
+CUDA Version:   11.2     
+GPU  Name:      A100-SXM4-40GB
+\end{lstlisting}
+Les versions de Pytorch, ainsi que de python était celle par défaut sur colab au moment de l'entrainement.
 
 \section{Tensorboard de faster RCNN }\label{anal:train_rcnn}
-Les widgets tensorboard permettent durant tous les entrainments d'avoir un aperçu des différentes métriques enregistrées. Nous pouvons donc savoir quand arrêter l'entrainement pour avoir la meilleur performance selon une métrique, cela permet aussi de ne pas overfit. Nous avons pris quelques captures d'écrans affichées dans les figures \ref{fig:tensorboard_overview} et \ref{fig:tensorboard_metric}
+Les widgets tensorboard permettent durant tous les entrainements d'avoir un aperçu des différentes métriques enregistrées. Nous pouvons donc savoir quand arrêter l'entrainement pour avoir la meilleur performance selon une métrique, cela permet aussi de ne pas overfit. Nous avons pris quelques captures d'écrans affichées dans les figures \ref{fig:tensorboard_overview} et \ref{fig:tensorboard_metric}
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.49\textwidth}
@@ -74,7 +86,7 @@ Les widgets tensorboard permettent durant tous les entrainments d'avoir un aper�
     % \caption{Aperçu des métriques enregistrées dans TensorBoard}
     \caption{Aperçu de tensorboard et des métriques de faster RCNN}
 \end{figure}
-Detectron2 affiche aussi une loss total, nous n'avons pas réussis à déterminer la manière dont elle est calculée, mais elle reste un bon indicateur de la performance du model et de l'over/under fitting. De plus comme nous avons plusieurs modèles, nous pouvons les comparer entres eux puisques toutes erreurs sera identiques sur tous les modèles
+Detectron2 affiche aussi une loss total, nous n'avons pas réussis à déterminer la manière dont elle est calculée, mais elle reste un bon indicateur de la performance du model et de l'over/under fitting. De plus, comme nous avons plusieurs modèles, nous pouvons les comparer entre eux avec cette dernière puisques toute erreur sera identique sur tous les modèles, ainsi la comparation reste pertinente.
 \begin{figure}[hb!]
     \centering
     \scalebox{0.5}[0.5]{\includegraphics[width=\textwidth]{images/loss_faster_rcnn.png}}
@@ -101,7 +113,7 @@ Dans cette section nous allons observer les métriques du modèle RetinaNet. Ce 
     \end{subfigure}
     \caption{Les métriques de RetinaNet durant un entrainement}
 \end{figure}
-Nous pouvons observer que RetinaNet doit être plus entrainé, 1000 itérations contre 500 pour Faster-RCNN. Il ne faut pas confondre itérations et époch. Une époch représente un passage sur l'entièreté du dataset, tandis qu'une iteration est un pas vers la recherche d'un minimum durant l'optimisation de l'erreur. Nous avons déterminé ces hyperparamètres grâce à tensorboard qui permet durant l'entrainment d'avoir un aperçu des métriques. Fait intéressant, RetinaNet est plus rapide à entrainer (environ 10 minutes de moins que Faster-RCNN) ceci est surement du à son architecture plus simple qui nécessite donc moins de calcule.
+Nous pouvons observer que RetinaNet doit être plus entrainé, 1000 itérations contre 500 pour Faster-RCNN. Il ne faut pas confondre itérations et époch. Une époch représente un passage sur l'entièreté du dataset, tandis qu'une iteration est un pas vers la recherche d'un minimum durant l'optimisation de l'erreur. Nous avons déterminé ces hyperparamètres grâce à tensorboard qui permet durant l'entrainement d'avoir un aperçu des métriques. Fait intéressant, RetinaNet est plus rapide à entrainer (environ 10 minutes de moins que Faster-RCNN) ceci est surement du à son architecture plus simple qui nécessite donc moins de calcule.
 
 % -- Vic : 
 
@@ -139,6 +151,7 @@ Scores par classe :
 Voici donc comment nous avons premièrement entraîné notre modèle Faster R-CNN, avec Detectron 2 : 
 
 \lstset{language=Python}
+\lstset{style=Python}
 \begin{lstlisting}
 cfg = get_cfg()
 cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/
@@ -191,9 +204,9 @@ Voici deux exemples de résultats de classification par notre modèle ainsi cré
 
 Validation (résultats) important de dire que images sont similaires à celles deja vues blabla --> Joris (précision sur ce qui est dit..)
 
-\section{Où est le problème}
+\section{Où est le problème}\label{ch:eval:sex:problem}
 
-Nous avons donc des résultats qui approchent ceux de l'état de l'art en 2019 selon \url{https://paperswithcode.com/sota/object-detection-on-coco}. Nous avons aussi des modèles qui sont correctement entrainés puisque, nous l'avons vu dans la partie \ref{anal:train_rcnn} ainsi que \ref{anal:train_retina}, les métriques indiquent qu'ils sont ni sous-entrainés ni sur-entrainés. Il nous faut donc observer des mauvaises classifications afin de comprendre les erreurs et de déterminer d'autres facteurs sur lesquels nous pouvons agir afin d'avoir de meilleurs résultats. En effet à l'heure où nous écrivons ces mots, un modèle basé sur DETR \footnote[1]{https://arxiv.org/pdf/2211.03594v1.pdf} atteint 64.5\% d'AP sur le benchmark COCO, ce qui est un score très élevé. Il existe donc des modèles SOTA bien meilleurs mais nous n'arrivons pas à les reproduire. Nous allons donc observer les erreurs de classification afin de comprendre ce qui ne va pas, mais avant nous aimerions faire remarquer qu'une explication possible est simplement la taille du Modèle. DETR, notre plus gros modèle, a 60 millions de paramètres alors que leur modèle en a 600 millions.
+Nous avons donc des résultats qui approchent ceux de l'état de l'art en 2019 selon \url{https://paperswithcode.com/sota/object-detection-on-coco}. Nous avons aussi des modèles qui sont correctement entrainés puisque, nous l'avons vu dans la partie \ref{anal:train_rcnn} ainsi que \ref{anal:train_retina}, les métriques indiquent qu'ils sont ni sous-entrainés ni sur-entrainés. Il nous faut donc observer des mauvaises classifications afin de comprendre les erreurs et déterminer d'autres facteurs sur lesquels nous pouvons agir afin d'avoir de meilleurs résultats. En effet, à l'heure où nous écrivons ces mots, un modèle basé sur DETR \footnote[1]{\url{https://arxiv.org/pdf/2211.03594v1.pdf}} atteint 64.5 de mAP sur le benchmark COCO, ce qui est un score très élevé. Il existe donc des modèles SOTA bien meilleurs mais nous n'arrivons pas à les reproduire. Nous allons donc observer les erreurs de classification afin de comprendre ce qui ne va pas, mais avant nous aimerions faire remarquer qu'une explication possible est simplement la taille du Modèle. DETR, notre plus gros modèle, a 60 millions de paramètres alors que leur modèle en a 600 millions.
 \subsection{Analyse des images non détectés par Faster-RCNN}
 \begin{figure}[h]
     \centering
@@ -223,11 +236,11 @@ Nous avons ici trois types d'erreurs.
 \paragraph{}
 La première, qui est aussi une des plus fréquente, est la non détection d'animaux (souvent sur les bords de l'image). Le manque de luminosité ou la présence de feuille pourrait expliquer cela. Un pré-processing pourrait vérifier l'hypothèse de la luminosité. Cependant, nous ne pouvons pas vraiment faire de pré-processing pour la présence de feuille.
 \paragraph{}
-La seconde est aussi assez fréquente, il s'agit de la présence de multiples bounding box sur un même animal. Même si c'est étonnant, cette erreur ne devrait pas affecter les scores sur le benchmark. Nous avons aussi tuner le threeshold de confiance pour éviter ce genre d'erreur.
+La seconde est aussi assez fréquente, il s'agit de la présence de multiples bounding boxes sur un même animal. Même si c'est étonnant, cette erreur ne devrait pas affecter les scores sur le benchmark. Nous avons aussi tuner le threeshold de confiance pour réduire ce genre d'erreur.
 \paragraph{}
 La dernière est la seul occurence de ce type observée sur le set de teste, on peut voir qu'un bout de feuille est mal classifié avec pourtant une probabilité de 90\%. Et ceci sans raisons visibles.
 %  Nous pouvons nous demander si la planche à vraiment été bénéfique, en effet la plupart des annotations sont sur la planche, là où la planche permet rapidment d'apercevoir un animal. Le modèle a peut-être appris qu'il est plus probable de voir un animal donc peut-être plus habitué à voir des animaux à cet endroit.
-En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de grâve erreur d'entrainement.
+En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de grâves erreurs d'entrainement.
 
 \subsection{Analyse des images non détectés par RetinaNet}
 \begin{figure}[H]
@@ -253,6 +266,8 @@ En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de
     \caption{Exemple d'images mal prédites par RetinaNet}
     \label{fig:failed_pred_retina}
 \end{figure}
-Nous pouvons voir dans la figure \ref{fig:failed_pred_retina} que RetinaNet ne detecte jamais les tritons. Nous avons pensé que c'était du à la petite taile de ces derniers, cependant nous pouvons observé que l'image \ref{fig:eval_retina_b} est un gros crapaud qui n'est pas non plus reconnu. Il faut remarquer que du set de test, il s'agit de l'unique occurence d'une telle erreur.
-On peut noter que les crapauds-grenouilles sont toujours très bien detecté. L'image \ref{fig:eval_retina_c} nous montre un problème similaire à celui vu prédécement sur l'image \ref{fig:eval_fasterRCNN_a} ce qui tend à confirmer l'hypothèse du manque de lumière sur les cotés.
-\paragraph{Conclusion} Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés, il se peut, au vu des nombreuses annotations d'entrainement bien centrées, que les modèles aillent appriez à détecter les animaux au centre de l'image. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
+Nous pouvons voir dans la figure \ref{fig:failed_pred_retina} que RetinaNet ne détecte jamais les tritons ce qui confirme les scores du benchmark COCO vu précédement. Nous avons pensé que c'était du à la petite taille de ces derniers, cependant nous pouvons observé que l'image \ref{fig:eval_retina_b} est un gros crapaud qui n'est pas non plus reconnu. Il faut remarquer que du set de test, il s'agit de l'unique occurence d'une telle erreur.
+On peut noter que les crapauds-grenouilles sont toujours très bien détectés par RetinaNet. L'image \ref{fig:eval_retina_c} nous montre un problème similaire à celui vu prédécement sur l'image \ref{fig:eval_fasterRCNN_a} ce qui tend à confirmer l'hypothèse du manque de lumière sur les cotés.
+\paragraph{}
+ Après avoir regardé toutes les prédictions sur les images du set de test pour les deux modèles nous avons remarqué que plusieurs images semblent provenir de la même prise, ainsi lorsque la détection ne fontionne pas, elle ne fonctionne pas plusieurs fois! Ceci implique que les erreurs sont comptabilisées à double, cependant nous ne pouvons pas crier victoire et dire que nos scores sont bien en dessous de leur vrai valeurs car nous observons aussi ceci sur les prédictions correctes! Ainsi les bons scores et mauvais scores à double se compensent.
+\paragraph{Conclusion} Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés, il se peut, au vu des nombreuses annotations d'entrainement placées au centre de l'image, que les modèles détectent mieux les animaux au centre de l'image de part leur entrainement. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
