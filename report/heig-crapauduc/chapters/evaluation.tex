@@ -126,23 +126,49 @@ Après avoir testé plusieurs approches comme mentionnées dans le chapitre \ref
     \item[-] Retinanet avec Detectron2.
 \end{itemize}
 
-Voici donc un tableau résumant les average precision (AP) scores de chaque catégorie suivant le treshold, ainsi 
+\subsection{Scores des modèles}
 
-Scores par classe : 
+Voici donc les scores obtenus avec Faster R-CNN (figure \ref{fig:scores_fasterRcnn}) et RetinaNet (figure \ref{fig:scores_retinanet}) :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{heig-crapauduc/images/eval_FasterRCNN_resume_annote.png}
+    \caption{Scores obtenus avec Faster R-CNN}
+    \label{fig:scores_fasterRcnn}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{heig-crapauduc/images/eval_Retinanet_resume_annote.png}
+    \caption{Scores obtenus avec RetinaNet}
+    \label{fig:scores_retinanet}
+\end{figure}
+
+D'après le chapitre 7.2 vu plus tôt "Lecture d'un benchmark COCO", c'est la première ligne de ces résultats qui est la plus importante, c'est-à-dire la moyenne des mAP des bounding boxes qui ont un IoU entre 50 et 95 pourcent. On va donc ici observer ces valeurs, ainsi que l'average recall recall pour le même intervalle de IoU, avec la même valeur (=100) pour maxDets - nombre maximal d'objets détectables sur une image. On peut observer ces valeurs sur les figures \ref{fig:scores_fasterRcnn} et \ref{fig:scores_retinanet}, en \textit{(1)} pour l'AP et en \textit{(2)} pour l'AR ; les voicis dans ce tableau :
 
 \begin{center}
-   \begin{tabular}{ | l | l || c |}
+   \begin{tabular}{ | l || c | c |}
      \hline
-     modèle & catégorie & AP score \\ \hline
-     \multirow{2}{*} {Faster R-CNN} & crapaud-grenouille & 42.03 \\ 
-     & triton & 42.58   \\ \hline
-     \multirow{2}{*} {Retinanet} & crapaud-grenouille & 49.40 \\
-    & triton & 0.00 \\
-     \hline
+     modèle & average precision & average recall \\ \hline
+     Faster R-CNN & 0.347 & 0.426 \\ \hline
+     Retinanet & 0.260 & 0.294 \\ \hline
    \end{tabular}
  \end{center}
 
- Bien que le score pour la classe crapaud-grenouille soit plus élevé à l'aide du modèle Retinanet, le score pour la classe triton est de zéro. Rappelons que la tâche initiale de ce projet est de compter le nombre de triton/crapaud-grenouille qui utilisent les crapauduc ; ainsi, nous avons choisi l'algorithme Faster R-CNN comme modèle final pour cette tâche de classification.
+On voit donc premièrement que les deux scores sont meilleurs pour Faster R-CNN que pour RetinaNet. Aussi, en observant les AP par classe (\textit{(3)} sur les figures \ref{fig:scores_fasterRcnn} et \ref{fig:scores_retinanet}), on a les résultats suivants : 
+
+\begin{center}
+   \begin{tabular}{ | l || c | c |}
+     \hline
+     modèle & AP grenouille-crapaud & AP triton \\ \hline
+     Faster R-CNN & 39.811 & 40.475 \\ \hline
+     Retinanet & 49.401 & 0.000 \\ \hline
+   \end{tabular}
+ \end{center}
+ 
+On voit ici que bien que le score pour la classe crapaud-grenouille soit plus élevé à l'aide du modèle RetinaNet, le score pour la classe triton est de zéro. Rappelons que la tâche initiale de ce projet est de compter le nombre de triton/crapaud-grenouille qui utilisent les crapauduc ; ainsi, nous avons choisi l'algorithme Faster R-CNN comme modèle final pour cette tâche de classification.\newline
+
+Il est également ici intéressant de noter que le fait que la classe triton ait une AP nulle avec RetinaNet a un impact important sur le résultat de mAP. Il serait dont important et intéressant d'investiguer plus profondément sur la raison de l'échec complet de détection de triton ; comme discuté plus tard au \autoref{chap:next_steps} de ce rapport.
 
 \subsection{Modèle final choisi}\label{anal:final_model}
 
@@ -202,7 +228,7 @@ Voici deux exemples de résultats de classification par notre modèle ainsi cré
     \label{fig:fasterRcnn_triton}
 \end{figure}
 
-Validation (résultats) important de dire que images sont similaires à celles deja vues blabla --> Joris (précision sur ce qui est dit..)
+On observe donc ici une bonne prédiction du modèle, qui est quasi certain de son classement (96\% et 97\%). Il est cependant intéressant et surtout important de noter que le modèle a été entraîné sur des images qui peuvent être très semblables aux/à certaines images de celles sur lesquelles il a été évalué ensuite. En effet, les images que nous avons prises pour l'entraînement et pour l'évaluation proviennent d'un ensemble d'images pouvant provenir de la même prise ou du même crapauduc, ce qui peut provoquer de l'overfitting.
 
 \section{Où est le problème}\label{ch:eval:sex:problem}
 
