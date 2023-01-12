@@ -10,11 +10,11 @@ Afin de réaliser les bounding box et les labels, nous avons utilisé le logicie
 
 \section{Conversion de format}
 
-Nous avons écrit un petit script python permettant de convertir les labels en différents formats. Il existe plusieurs manières de définir les bounding box. Elle peuvent être définies comme un point d'ancrage et une taille plus une hauteur ou simplement être 2 points. De plus, il existe différente nomenclatures pour stocker ces images telles que le format coco stocké dans un fichier .json qui est associé au dataset coco. Il se peut que les données soient encore stockées sous forme d'un csv ou d'un fichier manifest qui peut être utile pour des services comme amazon sagemaker.
+Nous avons écrit plusieurs petit scripts python permettant de convertir les labels en différents formats. Il existe plusieurs manières de définir les bounding box. Elle peuvent être définies comme un point d'ancrage et une taille plus une hauteur ou simplement être 2 points. De plus, il existe différente nomenclatures pour stocker ces images telles que le format coco stocké dans un fichier .json qui est associé au dataset coco. Il se peut que les données soient encore stockées sous forme d'un csv ou d'un fichier manifest qui peut être utile pour des services comme amazon sagemaker. Aini, nous avons créé plusieurs fonctions de conversion de csv à json de xml à csv ou encore de pascalvoc à csv afin de pouvoir annoter les images avec l'outils colabeler.
 
 \section{Comptage des labels}
 
-Un petit script a été mis sur pied afin de compter les labels déjà effectués. Ce qui permet d'avoir une liste des images déjà traitées et de constituer un subset rapidement pour entraîner des algorithmes.
+Un petit script a été élaboré afin de compter les labels déjà effectués. Ce qui permet d'avoir une liste des images déjà traitées et de constituer un subset rapidement pour entraîner des algorithmes.
 
 \section{Folder Shortener}
 
@@ -22,4 +22,12 @@ Ce script bash permet de simplifier le chemin d'accès aux images pour une quest
 
 \section{Fusion des dataframes}
 
+Nous avons également un script permettant de fusionner plusieurs fichier csv en un seul. Ce qui permet de constituer un dataset plus important afin de réaliser des analyses sur tout le dataset.
 
+\section{Tri des images}
+
+Nous avons également un script bash qui permet à partir d'une liste de fichier de déplacer tous les fichiers en une seule fois. Ainsi il est possible d'exporter un subset rapidement à partir d'une liste.
+
+\section{Réorganisation des données}
+
+Le script d'unnesting a permis de transformer la structure des données. Au début, la structure était partitionnée par caméra et par date ce qui facilitait la naviguation mais compliquait la gestion des fichiers. Ainsi nous avons utilisé ce script pour changer le partionnement uniquement par caméra. Ce qui permet de gérer une arborescente moins profonde et regrouper le travail. De plus, ce script stocke les nouveaux résultats dans un csv ce qui permet de faire des analyses sur tout le dataset.
