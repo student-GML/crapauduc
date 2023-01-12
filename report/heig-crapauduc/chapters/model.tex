@@ -101,7 +101,7 @@ Fast R-CNN est ainsi une version améliorée de R-CNN, qui est beaucoup plus rap
 
 \paragraph{} Nous avons décidé d'utiliser une backbone \verb|X_101_32x8d_FPN| c'est à dire un réseau ResNeXt-101 avec une configuration de 32 groupes de large de 8, 32x8d fait donc référence à des hyper-paramètres utilisé par le réseau ResNeXt de la backbone. Nous n'avons pas nous même cherché ces valeurs, nous avons choisis cette configuration en copiant la configuration de Faster-RCNN donnant le meilleur score COCO selon la documentation de Detectron2. Ce réseau ResNeXt est suivit d'un second réseau, FPN cette fois, qui forment ensemble l'entièreté de la backbone que nous utilisons.
 
-\paragraph{} Pour des raisons évidentes de rapidité de traitement des images, nous avons donc investigué plus précisément ce dernier modèle - Faster R-CNN - pour notre problème. C'est d'ailleurs ce modèle que nous avons finalement sélectionné pour répondre à la problématique de ce projet, comme mentionné ci-après, en chapitre \autoref{chap:Evaluation} de ce rapport ("Evaluation").\newline
+\paragraph{} Pour des raisons évidentes de rapidité de traitement des images, nous avons donc investigué plus précisément ce dernier modèle - Faster R-CNN - pour notre problème. C'est d'ailleurs ce modèle que nous avons finalement sélectionné pour répondre à la problématique de ce projet, comme mentionné ci-après, en chapitre \ref{chap:Evaluation} de ce rapport ("Evaluation").\newline
 Pour se faire, nous avons donc du adapter les exemples trouvés sur internet à notre problème, légèrement différent de ces dits exemples. Il a donc fallu assembler différents tutoriels, ce qui a impliqué beaucoup de temps d'analyse et de compréhension. Aussi, nous avons du nous habituer au jargon technique que nous n'avions pas - tel que mAP et les benchmarks coco pour en citer quelques uns. Il a également fallu passer du temps pour comprendre ce qu'était COCO (Common Object in COntext) : une base de données fournie par Microsoft qui contient des images annotées avec des informations sur les objets présents dans chaque imag et qui fourni également un benchmark ; un ensemble de tests et de métriques utilisés pour évaluer les performances des modèles de reconnaissance d'objets et de segmentation d'images.
 
 % ------------------------------------------
@@ -124,7 +124,7 @@ Pour se faire, nous avons donc du adapter les exemples trouvés sur internet à 
 
 \paragraph{Results}
 
-\paragraph{} Ce modèle obtient des résultats extrêmement satisfaisants. En effet, il s'agit du modèle qui détecte les crapauds/grenouilles avec la plus grande accuracy. Les résultats précis de ce modèle sont par ailleurs détaillés dans la section "Evaluation" du \autoref{chap:Evaluation} de ce rapport.
+\paragraph{} Ce modèle obtient des résultats extrêmement satisfaisants. En effet, il s'agit du modèle qui détecte les crapauds/grenouilles avec la plus grande accuracy. Les résultats précis de ce modèle sont par ailleurs détaillés dans la section "Evaluation" du \ref{chap:Evaluation} de ce rapport.
 
 \subsection{\textit{De}tection \textit{Tr}ansformer (\textit{DE-TR)}}
 

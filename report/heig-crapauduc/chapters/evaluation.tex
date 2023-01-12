@@ -132,14 +132,14 @@ Voici donc les scores obtenus avec Faster R-CNN (figure \ref{fig:scores_fasterRc
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{heig-crapauduc/images/eval_FasterRCNN_resume_annote.png}
+    \includegraphics[width=\textwidth]{images/eval_FasterRCNN_resume_annote.png}
     \caption{Scores obtenus avec Faster R-CNN}
     \label{fig:scores_fasterRcnn}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{heig-crapauduc/images/eval_Retinanet_resume_annote.png}
+    \includegraphics[width=\textwidth]{images/eval_Retinanet_resume_annote.png}
     \caption{Scores obtenus avec RetinaNet}
     \label{fig:scores_retinanet}
 \end{figure}
@@ -168,7 +168,7 @@ On voit donc premièrement que les deux scores sont meilleurs pour Faster R-CNN 
  
 On voit ici que bien que le score pour la classe crapaud-grenouille soit plus élevé à l'aide du modèle RetinaNet, le score pour la classe triton est de zéro. Rappelons que la tâche initiale de ce projet est de compter le nombre de triton/crapaud-grenouille qui utilisent les crapauduc ; ainsi, nous avons choisi l'algorithme Faster R-CNN comme modèle final pour cette tâche de classification.\newline
 
-Il est également ici intéressant de noter que le fait que la classe triton ait une AP nulle avec RetinaNet a un impact important sur le résultat de mAP. Il serait dont important et intéressant d'investiguer plus profondément sur la raison de l'échec complet de détection de triton ; comme discuté plus tard au \autoref{chap:next_steps} de ce rapport.
+Il est également ici intéressant de noter que le fait que la classe triton ait une AP nulle avec RetinaNet a un impact important sur le résultat de mAP. Il serait dont important et intéressant d'investiguer plus profondément sur la raison de l'échec complet de détection de triton ; comme discuté plus tard au \ref{chap:next_steps} de ce rapport.
 
 \subsection{Modèle final choisi}\label{anal:final_model}
 
@@ -228,7 +228,7 @@ Voici deux exemples de résultats de classification par notre modèle ainsi cré
     \label{fig:fasterRcnn_triton}
 \end{figure}
 
-On observe donc ici une bonne prédiction du modèle, qui est quasi certain de son classement (96\% et 97\%). Il est cependant intéressant et surtout important de noter que le modèle a été entraîné sur des images qui peuvent être très semblables aux/à certaines images de celles sur lesquelles il a été évalué ensuite. En effet, les images que nous avons prises pour l'entraînement et pour l'évaluation proviennent d'un ensemble d'images pouvant provenir de la même prise ou du même crapauduc, ce qui peut provoquer de l'overfitting.
+On observe donc ici une bonne prédiction du modèle, qui est quasi certain de son classement (96\% et 97\%). Il est cependant intéressant et surtout important de noter que le modèle a été entraîné sur des images qui peuvent être très semblables aux/à certaines images de celles sur lesquelles il a été évalué ensuite. En effet, les images que nous avons prises pour l'entraînement et pour l'évaluation proviennent d'un ensemble d'images pouvant provenir de la même séquence ou du même crapauduc, ce qui peut provoquer de l'overfitting.
 
 \section{Où est le problème}\label{ch:eval:sex:problem}
 
@@ -295,5 +295,6 @@ En conclusion, Faster-RCNN est vraiment bon et les erreurs ne présentent pas de
 Nous pouvons voir dans la figure \ref{fig:failed_pred_retina} que RetinaNet ne détecte jamais les tritons ce qui confirme les scores du benchmark COCO vu précédement. Nous avons pensé que c'était du à la petite taille de ces derniers, cependant nous pouvons observé que l'image \ref{fig:eval_retina_b} est un gros crapaud qui n'est pas non plus reconnu. Il faut remarquer que du set de test, il s'agit de l'unique occurence d'une telle erreur.
 On peut noter que les crapauds-grenouilles sont toujours très bien détectés par RetinaNet. L'image \ref{fig:eval_retina_c} nous montre un problème similaire à celui vu prédécement sur l'image \ref{fig:eval_fasterRCNN_a} ce qui tend à confirmer l'hypothèse du manque de lumière sur les cotés.
 \paragraph{}
- Après avoir regardé toutes les prédictions sur les images du set de test pour les deux modèles nous avons remarqué que plusieurs images semblent provenir de la même prise, ainsi lorsque la détection ne fontionne pas, elle ne fonctionne pas plusieurs fois! Ceci implique que les erreurs sont comptabilisées à double, cependant nous ne pouvons pas crier victoire et dire que nos scores sont bien en dessous de leur vrai valeurs car nous observons aussi ceci sur les prédictions correctes! Ainsi les bons scores et mauvais scores à double se compensent.
-\paragraph{Conclusion} Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés, il se peut, au vu des nombreuses annotations d'entrainement placées au centre de l'image, que les modèles détectent mieux les animaux au centre de l'image de part leur entrainement. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
+ Après avoir regardé toutes les prédictions sur les images du set de test pour les deux modèles nous avons remarqué que plusieurs images semblent provenir de la même séquence, ainsi lorsque la détection ne fontionne pas, elle ne fonctionne pas plusieurs fois! Ceci implique que les erreurs sont comptabilisées à double, cependant nous ne pouvons pas crier victoire et dire que nos scores sont bien en dessous de leur vrai valeurs car nous observons aussi ceci sur les prédictions correctes! Ainsi les bons scores et mauvais scores à double se compensent.
+
+ \paragraph{Conclusion} Nos deux modèles semblent avoir des difficultés avec les animaux qui passent par les cotés, il se peut, au vu des nombreuses annotations d'entrainement placées au centre de l'image, que les modèles détectent mieux les animaux au centre de l'image de part leur entrainement. Néanmoins, un ajustement de la luminosité serait une piste de réflexion.
