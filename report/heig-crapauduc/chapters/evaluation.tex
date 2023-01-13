@@ -197,6 +197,8 @@ cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
 cfg.MODEL.ROI_HEADS.NUM_CLASSES = 4 
 \end{lstlisting}
 
+Les paramètres choisis on été trouvés et repris de la plupart des documentations trouvées en ligne. L'hypertuning s'est focalisé sur certains paramètres, en particulier `MAX\_ITER`.
+
 
 \paragraph{Test}
 
@@ -212,7 +214,7 @@ cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7
 predictor = DefaultPredictor(cfg)
 \end{lstlisting}
 
-Le seuil choisi pour le test ci-dessus indique donc qu'on considérera une image comme étant prédite d'une certaine classe si le modèle est sûr à au moins 70\% de sa classification.\newline
+Le seuil choisi pour le test ci-dessus indique donc qu'on considérera une image comme étant prédite d'une certaine classe si le modèle détermine une probabilité supérieure ou égale à 70\% que sa classification soit correcte.\newline
 
 Voici deux exemples de résultats de classification par notre modèle ainsi créé :
 
