@@ -2,7 +2,10 @@
 
 ## Introduction
 
-This repository is the working space for the crapauduc project. He his the result of the work of ISCD students from HEIG-VD in 2022-2023. The goal of this project is to detect the presence of a frog and triton in a crapauduc.
+This repository is the working space for the crapauduc project. This the result of the work of ISCD students from HEIG-VD in 2022-2023. The goal of this project is to detect the presence of a frog and triton in a crapauduc using object detection.
+Work done by Joris Schaller, Oliver D'Ancona, Victoria Logan, Erica Ludivine Mbassi, Nicolas Wichoud.
+We fined tuned multiples models such as Faster-RCNN, RetinaNet and DETR. Here is a results obtained
+![Example of a crapaud being recognised](report/heig-crapauduc/images/Eval_FasterRCNN_crapGren.png)
 
 ## Architecture
 
